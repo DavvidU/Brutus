@@ -1,4 +1,9 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Brutus.Data;
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<BrutusContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("BrutusContext") ?? throw new InvalidOperationException("Connection string 'BrutusContext' not found.")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
