@@ -49,8 +49,16 @@ namespace Brutus.Controllers
                 _context.SaveChanges();
                 
                 idTworzonegoKonta = _context.Konta.OrderByDescending(x => x.ID_Konta).FirstOrDefault().ID_Konta;
+                //  idTworzonegoKonta = konto.ID_Konta;
                 
-                return RedirectToAction("Index", "Konta");
+                if(typTworzonegoKonta == "Admin")
+                    return RedirectToAction("Create", "Admini", new { idDodanegoKonta = idTworzonegoKonta });
+                if (typTworzonegoKonta == "Uczen")
+                    return RedirectToAction("Create", "Uczniowie", new { idDodanegoKonta = idTworzonegoKonta });
+                if (typTworzonegoKonta == "Rodzic")
+                    return RedirectToAction("Create", "Rodzice", new { idDodanegoKonta = idTworzonegoKonta });
+                if (typTworzonegoKonta == "Nauczyciel")
+                    return RedirectToAction("Create", "Nauczyciele", new { idDodanegoKonta = idTworzonegoKonta });
             }
             //}
 
