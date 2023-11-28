@@ -1,6 +1,46 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@model Konto
+
+<div>@ViewBag.Message</div>
+
+@using (Html.BeginForm())
+{
+    /*
+    <select name="TypKonta">
+        <option value="Admin">Admin</option>
+        <option value="Nauczyciel">Nauczyciel</option>
+        <option value="Uczen">Uczen</option>
+        <option value="Rodzic">Rodzic</option>
+    </select>*/
+    <table>
+        <tr>
+            <td>Imie: </td>
+            <td><input type="text" name="Imie" pattern=".{1,20}" title="Imię musi zawierać od 1 do 20 znaków" required/></td>
+        </tr>
+        <tr>
+            <td>Nazwisko: </td>
+            <td><input type="text" name="Nazwisko" pattern=".{1,30}" title="Nazwisko musi zawierać od 1 do 30 znaków" required/></td>
+        </tr>
+        <tr>
+            <td>Email: </td>
+            <td><input type="email" name="Email" pattern=".{1,20}" title="Email musi zawierać od 1 do 50 znaków" required/></td>
+        </tr>
+        <tr>
+            <td>Skrót hasła: </td>
+            <td><input type="password" name="SkrotHasla" pattern=".{1,10}" title="Hasło musi mieć od 1 do 10 znaków." required /></td>
+        </tr>
+        <tr>
+            <td>Numer telefonu: </td>
+            <td><input type="tel" name="NrTelefonu" pattern="[0-9]{9}" title="Telefon musi składać się z 9 cyfr." required /></td>
+        </tr>
+        <tr>
+            <td> <label for="Uczen"><input type="radio" name="TypKonta" value="Uczen" id="Uczen"> Uczeń</label> </td>
+            <td> <label for="Rodzic"><input type="radio" name="TypKonta" value="Rodzic" id="Rodzic"> Rodzic</label> </td>
+            <td> <label for="Nauczyciel"><input type="radio" name="TypKonta" value="Nauczyciel" id="Nauczyciel"> Nauczyciel</label> </td>
+            <td> <label for="Admin"><input type="radio" name="TypKonta" value="Admin" id="Admin"> Admin</label> </td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+            <td><input type="submit" value="Stwórz"/></td>
+        </tr>
+    </table>
 }
-<p> Formularz create</p>
