@@ -22,7 +22,7 @@ namespace Brutus.Controllers
         {
             return View();
         }
-        [HttpPost]
+        /*[HttpPost]
         public IActionResult Create(Przedmiot przedmiot)
         {
             if (ModelState.IsValid)
@@ -32,13 +32,13 @@ namespace Brutus.Controllers
                 return RedirectToAction("Index", "Przedmioty");
             }
             return View(przedmiot);
-        }
+        }*/
         public IActionResult Read()
         {
             var przedmioty = _context.Przedmioty.ToList();
             return View(przedmioty);
         }
-        [HttpGet]
+        /*[HttpGet]
         public IActionResult Update(int id)
         {
             var przedmiot = _context.Przedmioty.FirstOrDefault(p => p.ID_Przedmiotu == id);
@@ -70,12 +70,12 @@ namespace Brutus.Controllers
             }
 
             return View(przedmiot);
-        }
+        }*/
         public IActionResult Delete()
         {
             return View();
         }
-        [HttpPost]
+        /*[HttpPost]
         public IActionResult Delete(int id)
         {
             var przedmiotDoUsuniecia = _context.Przedmioty.FirstOrDefault(p => p.ID_Przedmiotu == id);
@@ -87,7 +87,6 @@ namespace Brutus.Controllers
             _context.Przedmioty.Remove(przedmiotDoUsuniecia);
             _context.SaveChanges();
             return RedirectToAction("Index");
-        }
-
+        }*/
     }
 }

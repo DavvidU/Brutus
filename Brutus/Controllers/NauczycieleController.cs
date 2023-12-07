@@ -21,7 +21,7 @@ namespace Brutus.Controllers
             nauczyciel.ID_Nauczyciela = idDodanegoKonta;
 
             _context.Nauczyciele.Add(nauczyciel);
-            _context.SaveChanges();
+            //_context.SaveChanges();
 
             return RedirectToAction("Index", "Konta");
         }
