@@ -2,6 +2,7 @@
 using Brutus.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using Brutus.DTOs;
 
 namespace Brutus.Controllers
 {
@@ -36,7 +37,26 @@ namespace Brutus.Controllers
         public IActionResult Read()
         {
             var przedmioty = _context.Przedmioty.ToList();
-            return View(przedmioty);
+
+            // Pobierz wszystkie rekordy z Przedmiot JOIN NauczycielPrzedmiot JOIN Nauczyciel po ID
+            // Zastosowane Left Join (w LINQ == into)
+            var przedmiotyZNauczycielami = (from przedmiot in _context.Przedmioty
+                                            join nauczycielPrzedmiot in _context.NauczycielePrzedmioty
+                                            on przedmiot.ID_Przedmiotu equals nauczycielPrzedmiot.Przedmiot.ID_Przedmiotu into przemiotLeftJoinPN
+                                            from pLJPN in przemiotLeftJoinPN.DefaultIfEmpty()
+                                            join nauczyciel in _context.Konta
+                                            on (pLJPN == null ? (int?)null : pLJPN.Nauczyciel.ID_Nauczyciela) equals nauczyciel.ID_Konta into pLJPNLeftJoinNauczyciel
+                                            from pLJPNLJN in pLJPNLeftJoinNauczyciel.DefaultIfEmpty()
+                                            select new PrzedmiotWithNauczyciel
+                                            {
+                                                ID_Przedmiotu = przedmiot.ID_Przedmiotu,
+                                                PrzedmiotNazwa = przedmiot.Nazwa,
+                                                PrzedmiotOpis = przedmiot.Opis,
+                                                ID_Nauczyciela = pLJPNLJN != null ? pLJPNLJN.ID_Konta : (int?)null,
+                                                NauczycielImie = pLJPNLJN != null ? pLJPNLJN.Imie : null,
+                                                NauczycielNazwisko = pLJPNLJN != null ? pLJPNLJN.Nazwisko : null
+                                            }).ToList();
+            return View(przedmiotyZNauczycielami);
         }
         [HttpGet]
         public IActionResult Update(int id)
