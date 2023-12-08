@@ -1,0 +1,25 @@
+@model List<Ocena>
+
+<h1>Twoje oceny</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Przedmiot</th>
+            <th>Ocena</th>
+            <th>Komentarz</th>
+            <th>Data</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var ocena in Model)
+        {
+            <tr>
+                <td>@ocena.Przedmiot.Nazwa</td>
+                <td>@ocena.Wartosc</td>
+                <td>@ocena.Komentarz</td>
+                <td>@ocena.Data</td>
+            </tr>
+        }
+    </tbody>
+</table>

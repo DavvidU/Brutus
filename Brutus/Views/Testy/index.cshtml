@@ -1,0 +1,30 @@
+@model List<Test>
+
+<h1>Twoje testy</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>Nazwa testu</th>
+        <th>Czas trwania</th>
+        <th>Liczba zadań</th>
+        <th>Akcje</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var test in Model)
+    {
+        <tr>
+            <td>@test.Nazwa</td>
+            <td>@test.CzasTrwania</td>
+            <td>@test.LiczbaZadan</td>
+            <td>
+                <form action="/Testy/Details" method="get" style="display: inline;">
+                    <input type="hidden" name="id" value="@test.ID_Testu" />
+                    <button type="submit">Szczegóły</button>
+                </form>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
