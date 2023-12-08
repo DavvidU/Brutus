@@ -1,0 +1,11 @@
+﻿@model List<Ogloszenie>
+<center>Aktualności</center>
+
+@foreach (var ogloszenie in Model)
+{
+    <tr>
+        <td>@ogloszenie.ID_Ogloszenia</td>
+        <td>@ogloszenie.Nauczyciel</td>
+        <td>@ogloszenie.Tresc</td>
+    </tr>
+}

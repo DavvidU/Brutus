@@ -88,6 +88,10 @@ namespace Brutus.Controllers
             _context.SaveChanges();
             return RedirectToAction("Index");
         }
-
+        public IActionResult ReadForNauczyciel()
+        {
+            var przedmioty = _context.Przedmioty.ToList();
+            return View(przedmioty);
+        }
     }
 }

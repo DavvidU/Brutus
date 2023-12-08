@@ -14,7 +14,7 @@ namespace Brutus.Controllers
         }
         public IActionResult Predmioty()
         {
-            return RedirectToAction("Index", "Konta");
+            return RedirectToAction("Index", "Przedmioty");
         }
     }
 }

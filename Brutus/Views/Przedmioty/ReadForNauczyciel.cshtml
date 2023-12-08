@@ -1,0 +1,23 @@
+﻿@model List<Przedmiot>
+
+<h1>Lista przedmiotów</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nazwa</th>
+            <th>Opis</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var przedmiot in Model)
+        {
+            <tr>
+                <td>@przedmiot.ID_Przedmiotu</td>
+                <td>@przedmiot.Nazwa</td>
+                <td>@przedmiot.Opis</td>
+            </tr>
+        }
+    </tbody>
+</table>
