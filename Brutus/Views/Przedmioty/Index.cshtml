@@ -25,8 +25,8 @@
                 <td>@przedmiot.NauczycielImie</td>
                 <td>@przedmiot.NauczycielNazwisko</td>
                 <td>
-                    <form action="/Przedmioty/Update" method="get" style="display: inline;">
-                        <input type="hidden" name="id" value="@przedmiot.ID_Przedmiotu" />
+                    <form action="/Przedmioty/SetNauczyciel" method="get" style="display: inline;">
+                        <input type="hidden" name="idPrzedmiotu" value="@przedmiot.ID_Przedmiotu" />
                         <button type="submit">Przypisz nauczyciela</button>
                     </form>
                     <form action="/Przedmioty/Update" method="get" style="display: inline;">

@@ -1,0 +1,12 @@
+﻿@model Brutus.DTOs.SetNauczycielViewModel;
+
+<h1>Przypisywanie nauczyciela</h1>
+
+@using (Html.BeginForm("SetNauczyciel", "Przedmioty", FormMethod.Post))
+{
+    @Html.HiddenFor(model => model.Przedmiot.ID_Przedmiotu)
+    <h2>@Model.Przedmiot.Nazwa</h2>
+
+    @Html.DropDownListFor(model => model.WybranyNauczycielID, Model.Nauczyciele, "Wybierz nauczyciela")
+    <input type="submit" value="Zapisz zmiany" />
+}

@@ -17,8 +17,12 @@ namespace Brutus.Controllers
         }
         public IActionResult Create(int idDodanegoKonta)
         {
+            /*
+             * Metoda tworzy rekord ucznia w Uczniowie z referencją do Konta
+             */
             Uczen uczen = new Uczen();
             uczen.ID_Ucznia = idDodanegoKonta;
+            uczen.Konto = _context.Konta.FirstOrDefault(p => p.ID_Konta == idDodanegoKonta);
 
             _context.Uczniowie.Add(uczen);
             _context.SaveChanges();
