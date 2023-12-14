@@ -1,0 +1,27 @@
+﻿@model Brutus.Models.Test
+
+
+<form action="/Testy/Create" method="post">
+    <table>
+        <tr>
+            <td>Nazwa testu:</td>
+            <td><input type="text" name="Nazwa" id="nazwa" maxlength="50" required /></td> 
+        </tr>
+        <tr>
+            <td>Czas trwania (hh:mm:ss):</td>
+            <td><input type="text" name="CzasTrwania" id="czasTrwania" pattern="\d{1,2}:\d{2}:\d{2}" title="Podaj czas w formacie hh:mm:ss" required /></td>
+        </tr>
+        <tr>
+            <td>Liczba zadań:</td>
+            <td><input type="number" name="LiczbaZadan" id="liczbaZadan" min="1" required /></td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+            <td><input type="submit" value="Utwórz test" /></td>
+        </tr>
+    </table>
+</form>
+
+<form action="/Testy/Show" method="get">
+    <button type="submit">Wróć</button>
+</form>

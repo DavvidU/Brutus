@@ -1,15 +1,11 @@
-﻿@model Ogloszenie
+﻿@model Brutus.Models.Ogloszenie
+
 <form action="/Ogloszenia/Create" method="post">
-    <table>
-        <tr>
-            <td>Treść: </td>
-            <td><textarea name="Tresc" rows="4" cols="50" pattern=".{1,500}" tittle="Maksymalnie 500 znaków"></textarea></td>
-        </tr>
-        <td>&nbsp;</td>
-        <td><input type="submit" value="Dodaj" /></td>
-        </tr>
-    </table>
-</form>
-<form action="/Ogloszenia" method="get">
-    <button type="submit">Wróć</button>
+    <div>
+        <label for="tresc">Treść:</label>
+        <textarea id="tresc" name="Tresc" rows="4" cols="50" pattern=".{1,500}" title="Maksymalnie 500 znaków"></textarea>
+    </div>
+    <div>
+        <input type="submit" value="Dodaj" />
+    </div>
 </form>

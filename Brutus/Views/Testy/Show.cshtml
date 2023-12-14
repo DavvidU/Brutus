@@ -1,0 +1,27 @@
+﻿@model IEnumerable<Brutus.Models.Test>
+
+<h2>Lista Testów</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Nazwa Testu</th>
+            <th>Czas Trwania</th>
+            <th>Liczba Zadań</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var test in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => test.Nazwa)</td>
+                <td>@Html.DisplayFor(modelItem => test.CzasTrwania)</td>
+                <td>@Html.DisplayFor(modelItem => test.LiczbaZadan)</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<form action="/Testy/Index" method="get">
+    <button type="submit">Wróć do menu testów</button>
+</form>

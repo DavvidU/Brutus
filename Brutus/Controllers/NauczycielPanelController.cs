@@ -20,9 +20,9 @@ namespace Brutus.Controllers
         {
             return RedirectToAction("ReadForNauczyciel", "Przedmioty");
         }
-        public IActionResult Ogłoszenia()
+        public IActionResult Ogloszenia()
         {
-            return RedirectToAction("Index", "Ogłoszenia");
+            return RedirectToAction("Index", "Ogloszenia");
         }
         public IActionResult Wiadomosc()
         {
