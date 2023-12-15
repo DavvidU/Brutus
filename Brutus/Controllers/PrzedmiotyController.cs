@@ -54,7 +54,7 @@ namespace Brutus.Controllers
             var przedmioty = _context.Przedmioty.ToList();
 
             // Pobierz wszystkie rekordy z Przedmiot JOIN NauczycielPrzedmiot JOIN Nauczyciel po ID
-            // Zastosowane Left Join (w LINQ == into)
+            // Zastosowane Left Join (w LINQ == into i '?')
             var przedmiotyZNauczycielami = (from przedmiot in _context.Przedmioty
                                             join nauczycielPrzedmiot in _context.NauczycielePrzedmioty
                                             on przedmiot.ID_Przedmiotu equals nauczycielPrzedmiot.Przedmiot.ID_Przedmiotu into przemiotLeftJoinPN
@@ -116,8 +116,12 @@ namespace Brutus.Controllers
             /*
              * Metoda usuwa przedmiot z Przedmioty
              * i odpowedni rekord z NauczycielePrzedmioty
+             * ----- TRZEBA JESZCZE -----
+             * - usunac odpowiednie rekordy z KlasyPrzedmioty
+             * - usunac odpowiednie rekordy z PrzedmiotyZalaczniki
+             * - wynullowac ref. do przemiotu w ocenach z Oceny, ktore sa wystawione z tego przedmiotu
              */
-
+            
             // Znajdź przedmiot w Przedmioty do usunięcia
             var przedmiotDoUsuniecia = _context.Przedmioty.FirstOrDefault(p => p.ID_Przedmiotu == id);
             if (przedmiotDoUsuniecia == null)
@@ -125,12 +129,38 @@ namespace Brutus.Controllers
                 return NotFound();
             }
 
+            /*
+             * Usuwanie rekordu z NauczycielePrezdmioty
+             */
+
             // Znajdź rekord w NauczycielePrzedmioty do usunięcia
             var rekordDoUsuniecia = _context.NauczycielePrzedmioty.FirstOrDefault(p =>
             p.Przedmiot.ID_Przedmiotu == przedmiotDoUsuniecia.ID_Przedmiotu);
 
-            // Usuń rekord z NauczycielePrzedmioty
+            // Usuń rekord z NauczycielePrzedmioty !!!!!!! TO TEZ BUGUJE RACZEJ PRZY >1 NAUCZYCIELU
             _context.NauczycielePrzedmioty.Remove(rekordDoUsuniecia);
+
+            /*
+             * Usuwanie rekordow z KlasyPrzedmioty
+             */
+
+
+
+            /*
+             * Usuwanie rekordow z PrzedmiotyZalaczniki
+             */
+
+
+
+            /*
+             * Wynullowanie refernencji na przedmiot w odpowiednich ocenach w Oceny
+             */
+
+
+
+            /*
+             * Usuwanie przedmiotu
+             */
 
             // Usuń przedmiot z Przedmioty
             _context.Przedmioty.Remove(przedmiotDoUsuniecia);
@@ -143,17 +173,17 @@ namespace Brutus.Controllers
         [HttpGet]
         public IActionResult SetNauczyciel(int idPrzedmiotu)
         {
-            //Znajdz przedmiot do przypisania w nim nauczyciela
+            // Znajdz przedmiot do przypisania w nim nauczyciela
             var przedmiot = _context.Przedmioty.FirstOrDefault(p => p.ID_Przedmiotu == idPrzedmiotu);
             if (przedmiot == null) { return NotFound(); }
 
-            //Uzyskaj liste kont, które należą do nauczycieli
+            // Uzyskaj liste kont, które należą do nauczycieli
             List<Konto> nauczyciele = (from konto in _context.Konta
                                join nauczyciel in _context.Nauczyciele
                                on konto.ID_Konta equals nauczyciel.ID_Nauczyciela
                                select konto).ToList();
 
-            
+            // Stworz VievModel prezentujacy przedmiot i liste nauczycieli do wyboru
             var viewModel = new SetNauczycielViewModel
             {
                 Przedmiot = przedmiot,
@@ -164,6 +194,9 @@ namespace Brutus.Controllers
         [HttpPost]
         public IActionResult SetNauczyciel(SetNauczycielViewModel model)
         {
+            // Domyslnie kazdy przedmiot ma rekord w NauczycielePrzedmioty (TO CHYBA ZLE!!!!
+            // Patrz Klasy/Delete, Przedmioty/Delete. Mozliwe BUGI dla wiecje niz jednego nauczyciela w Przedmiocie)
+
             /*
              * Metoda aktualizuje rekord w NauczycielePrzedmioty określający kto prowadzi dany przedmiot
              */
@@ -172,13 +205,13 @@ namespace Brutus.Controllers
             var rekordDoModyfikacji = _context.NauczycielePrzedmioty.FirstOrDefault(p => 
             p.Przedmiot.ID_Przedmiotu == model.Przedmiot.ID_Przedmiotu);
 
-            //if (rekordDoModyfikacji == null) { return NotFound(); }
+            if (rekordDoModyfikacji == null) { return NotFound(); }
 
             // Znajdź wybranego nauczyciela w Nauczyciele
             var wybranyNauczyciel = _context.Nauczyciele.FirstOrDefault(p =>
             p.ID_Nauczyciela == model.WybranyNauczycielID);
 
-            //if (wybranyNauczyciel == null) { return NotFound(); }
+            if (wybranyNauczyciel == null) { return NotFound(); }
 
             // Przypisz nauczyciela do rekordu w NauczycielePrzedmioty
             rekordDoModyfikacji.Nauczyciel = wybranyNauczyciel;
