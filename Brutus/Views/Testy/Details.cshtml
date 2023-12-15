@@ -1,0 +1,47 @@
+﻿@model Brutus.ViewModels.TestDetailsViewModel
+
+<h2>Szczegóły Testu</h2>
+
+<div>
+    <h3>Nazwa Testu: @Html.DisplayFor(model => model.Test.Nazwa)</h3>
+    <h3>Czas Trwania: @Html.DisplayFor(model => model.Test.CzasTrwania)</h3>
+    <h3>Liczba Zadań: @Html.DisplayFor(model => model.Test.LiczbaZadan)</h3>
+</div>
+
+@if (Model.Pytania != null && Model.Pytania.Any())
+{
+    <h3>Pytania w Teście</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Treść Pytania</th>
+                <th>Punkty</th>
+                <th>Wariant A</th>
+                <th>Wariant B</th>
+                <th>Wariant C</th>
+                <th>Wariant D</th>
+                <th>Poprawna Odpowiedź</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var pytanie in Model.Pytania)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => pytanie.Tresc)</td>
+                    <td>@Html.DisplayFor(modelItem => pytanie.Punkty)</td>
+                    <td>@Html.DisplayFor(modelItem => pytanie.WariantA)</td>
+                    <td>@Html.DisplayFor(modelItem => pytanie.WariantB)</td>
+                    <td>@Html.DisplayFor(modelItem => pytanie.WariantC)</td>
+                    <td>@Html.DisplayFor(modelItem => pytanie.WariantD)</td>
+                    <td>@Html.DisplayFor(modelItem => pytanie.PoprawnaOdpowiedz)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<div>
+    <a href="@Url.Action("Edit", "Testy", new { id = Model.Test.ID_Testu })">Edytuj</a> |
+    <a href="@Url.Action("Delete", "Testy", new { id = Model.Test.ID_Testu })">Usuń</a> |
+    <a href="@Url.Action("Index", "Testy")">Powrót do listy</a>
+</div>
