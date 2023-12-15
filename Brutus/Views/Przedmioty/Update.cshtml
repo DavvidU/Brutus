@@ -4,11 +4,11 @@
     <input type="hidden" asp-for="ID_Przedmiotu" />
     <div>
         <label>Nazwa:</label>
-        <input type="text" asp-for="Nazwa" required />
+        <input type="text" asp-for="Nazwa" pattern=".{1,20}" title="Maksymalna długość to 20 znaków"/>
     </div>
     <div>
         <label>Opis:</label>
-        <textarea asp-for="Opis" required></textarea>
+        <textarea asp-for="Opis" pattern=".{1,500}" tittle="Maksymalnie 500 znaków"></textarea>
     </div>
     <button type="submit">Zapisz zmiany</button>
 </form>

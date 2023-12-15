@@ -1,0 +1,30 @@
+﻿@model List<Brutus.Models.Ogloszenie>
+
+<h1>Aktualności</h1>
+
+@if (Model != null && Model.Any())
+{
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nauczyciel</th>
+                <th>Treść</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var ogloszenie in Model)
+            {
+                <tr>
+                    <td>@ogloszenie.ID_Ogloszenia</td>
+                    <td>@ogloszenie.Nauczyciel</td>
+                    <td>@ogloszenie.Tresc</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Brak ogłoszeń do wyświetlenia.</p>
+}
