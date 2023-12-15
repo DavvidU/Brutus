@@ -23,6 +23,7 @@ namespace Brutus.Controllers
             _context.Uczniowie.Add(uczen);
             _context.SaveChanges();
 
-            return RedirectToAction("Index", "Oceny", new { idUcznia = uczen.ID_Ucznia });        }
+            return RedirectToAction("Index", "Konta");
+        }
     }
 }
