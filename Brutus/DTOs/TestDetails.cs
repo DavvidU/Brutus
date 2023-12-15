@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Brutus.DTOs
 {
-    public class TestDetailsViewModel
+    public class TestDetails
     {
         public Test Test { get; set; }
         public List<Pytanie> Pytania { get; set; }

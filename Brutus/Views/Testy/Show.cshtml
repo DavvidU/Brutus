@@ -19,7 +19,7 @@
                 <td>@Html.DisplayFor(modelItem => test.CzasTrwania)</td>
                 <td>@Html.DisplayFor(modelItem => test.LiczbaZadan)</td>
                 <td>
-                    <a href="@Url.Action("Details", "Testy", new { id = test.ID_Testu })">Podgląd Zadań</a>
+                    <a href="@Url.Action("Details", "Testy", new { idTestu = test.ID_Testu })">Podgląd Zadań</a>
                     <form asp-action="RedirectToAddQuestions" asp-controller="Testy" method="get">
                         <input type="hidden" name="id" value="@test.ID_Testu" />
                         <input type="submit" value="Dodaj Pytania" />

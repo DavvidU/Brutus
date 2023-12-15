@@ -3,7 +3,6 @@ using Brutus.DTOs;
 using Brutus.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using 
 
 namespace Brutus.Controllers
 {
@@ -51,24 +50,24 @@ namespace Brutus.Controllers
 
             return RedirectToAction("Create", "Pytania", new { id = id, liczbaZadan = test.LiczbaZadan });
         }
-        public IActionResult Details(int id)
+        public IActionResult Details(int idTestu)
         {
-            var test = _context.Testy.FirstOrDefault(t => t.ID_Testu == id);
+            var test = _context.Testy.FirstOrDefault(t => t.ID_Testu == idTestu);
             if (test == null)
             {
                 return NotFound();
             }
+            var pytaniaDoTestu = (from pytanie in _context.Pytania
+                                  where pytanie.Test.ID_Testu == idTestu
+                                  select pytanie).ToList();
 
-            var pytania = _context.Pytania.Where(p => p.ID_Testu == id).ToList();
-
-            // Przekazanie testu i pytań do widoku za pomocą ViewBag
-            ViewBag.Test = test;
-            ViewBag.Pytania = pytania;
-
-            return View();
+            var viewModel = new TestDetails
+            {
+                Test = test,
+                Pytania = pytaniaDoTestu
+            };
+            return View(viewModel);
         }
-
-
 
     }
 }
