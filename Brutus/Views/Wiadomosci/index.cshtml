@@ -1,0 +1,37 @@
+@model List<Wiadomosc>
+
+<h1>Twoje wiadomości</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>Data</th>
+        <th>Treść</th>
+        <th>Akcje</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var wiadomosc in Model)
+    {
+        <tr>
+            <td>@wiadomosc.Data</td>
+            <td>@wiadomosc.Tresc</td>
+            <td>
+                <form action="/Wiadomosci/Details" method="get" style="display: inline;">
+                    <input type="hidden" name="id" value="@wiadomosc.ID_Wiadomosci" />
+                    <button type="submit">Szczegóły</button>
+                </form>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<h2>Nowa wiadomość</h2>
+
+<form action="/Wiadomosci/Create" method="post">
+    <label for="tresc">Treść:</label>
+    <textarea name="tresc" required></textarea>
+    <br />
+    <button type="submit">Wyślij</button>
+</form>
