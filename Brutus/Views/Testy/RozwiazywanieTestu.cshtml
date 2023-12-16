@@ -1,0 +1,56 @@
+@model List<Brutus.Models.Pytanie>
+
+<h2>Rozwiązywanie Testu</h2>
+
+<div>
+    <h3>Liczba Zadań:@Model.Count</h3>
+</div>
+
+@if (Model != null)
+{
+    <h3>Pytania w Teście</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Treść Pytania</th>
+            <th>Punkty</th>
+            <th>Wariant A</th>
+            <th>Wariant B</th>
+            <th>Wariant C</th>
+            <th>Wariant D</th>
+            <th>Wybrana Odpowiedź</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var pytanie in Model)
+        {
+            <tr>
+                <td>@pytanie.Tresc</td>
+                <td>@pytanie.Punkty</td>
+                <td>@pytanie.WariantA</td>
+                <td>@pytanie.WariantB</td>
+                <td>@pytanie.WariantC</td>
+                <td>@pytanie.WariantD</td>
+                <td><label for="Uczen"><input type="radio" name="" value="Uczen" id="Uczen"> A</label> 
+                                                <label for="Rodzic"><input type="radio" name="TypKonta" value="Rodzic" id="Rodzic"> B</label> 
+                                                <label for="Nauczyciel"><input type="radio" name="TypKonta" value="Nauczyciel" id="Nauczyciel"> C</label> 
+                                                <label for="Admin"><input type="radio" name="TypKonta" value="Admin" id="Admin"> D</label> 
+                                                </td>
+                
+                
+                
+                            
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+<form action="/UczenPane" method="get">
+    <button type="submit">Zapisz podejście</button>
+</form> 
+
+<div>
+    <a href="@Url.Action("Index", "Testy")">Powrót do listy</a>
+</div>
+

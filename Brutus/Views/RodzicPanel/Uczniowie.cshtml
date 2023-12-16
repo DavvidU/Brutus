@@ -10,6 +10,7 @@
             <th>ID</th>
             <th>Imie</th>
             <th>Nazwisko</th>
+            <th>Akcje</th>
         </tr>
         </thead>
         <tbody>
@@ -19,6 +20,12 @@
             <td>@kontoUcznia.ID_Konta</td>
             <td>@kontoUcznia.Imie</td>
             <td>@kontoUcznia.Nazwisko</td>
+            <td>
+                <form action="/RodzicPanel/Oceny" method="get" style="display: inline;">
+                    <input type="hidden" name="idUcznia" value="@kontoUcznia.ID_Konta" />
+                    <button type="submit">Pokaż oceny ucznia</button>
+                </form>
+            </td>
             </tr>
         }
         </tbody>

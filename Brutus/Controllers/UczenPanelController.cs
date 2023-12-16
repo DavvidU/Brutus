@@ -8,6 +8,10 @@ namespace Brutus.Controllers
     public class UczenPanelController : Controller
     {
         private BrutusContext _context;
+        public UczenPanelController(BrutusContext context)
+        {
+            _context = context;
+        }
         public IActionResult Index()
         {
             return View();
@@ -16,11 +20,6 @@ namespace Brutus.Controllers
         [HttpGet]
         public IActionResult Oceny(int idUcznia)
         {
-            /*
-             NullReferenceException: Object reference not set to an instance of an object.
-               Brutus.Controllers.UczenPanelController.Oceny(int idUcznia) in UczenPanelController.cs
-                           Konto kontoUcznia = _context.Konta.FirstOrDefault(k => k.ID_Konta == idUcznia);
-            */
             Konto kontoUcznia = _context.Konta.FirstOrDefault(k => k.ID_Konta == idUcznia);
             if (kontoUcznia == null)
             {

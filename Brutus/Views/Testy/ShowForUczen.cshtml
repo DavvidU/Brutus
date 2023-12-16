@@ -18,9 +18,10 @@
             <td>@Html.DisplayFor(modelItem => test.Nazwa)</td>
             <td>@Html.DisplayFor(modelItem => test.CzasTrwania)</td>
             <td>@Html.DisplayFor(modelItem => test.LiczbaZadan)</td>
-            <td><form action="/Test/{id}" method="get">
+            <td><form action="/Testy/RozwiazywanieTestu" method="get">
+                    <input type="hidden" name="idTestu" value="@test.ID_Testu" />
                     <button type="submit">Rozpocznij Test</button>
-            </form> 
+                </form> 
             </td>
         </tr>
     }

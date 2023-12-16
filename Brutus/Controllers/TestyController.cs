@@ -2,6 +2,7 @@
 using Brutus.DTOs;
 using Brutus.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 
 namespace Brutus.Controllers
@@ -45,6 +46,19 @@ namespace Brutus.Controllers
             IEnumerable<Test> testy = _context.Testy.ToList();
             return View(testy);
         }
+
+        [HttpGet]
+        public IActionResult RozwiazywanieTestu(int idTestu)
+        {
+            //_context.Pytania(p => p.Test.ID_Testu == idTestu).ToList()
+            //Test test = _context.Testy.FirstOrDefault(t => t.ID_Testu == idTestu);
+            List<Pytanie> pytaniaTestu = (from pytanie in _context.Pytania
+                    where pytanie.Test != null && pytanie.Test.ID_Testu == idTestu
+                        select pytanie).ToList();
+            
+            return View(pytaniaTestu);
+        }
+        
         
         [HttpGet]
         public IActionResult RedirectToAddQuestions(int id)
