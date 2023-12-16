@@ -1,0 +1,26 @@
+﻿@model Konto
+
+<form action="Update" method="post">
+    <input type="hidden" asp-for="ID_Konta" />
+    <div>
+        <label>Imię:</label>
+        <input type="text" asp-for="Imie" pattern=".{1,20}" title="Imię musi zawierać od 1 do 20 znaków" required />
+    </div>
+    <div>
+        <label>Nazwisko:</label>
+        <input type="text" asp-for="Nazwisko" pattern=".{1,30}" title="Nazwisko musi zawierać od 1 do 30 znaków" required />
+    </div>
+    <div>
+        <label>Email:</label>
+        <input type="email" asp-for="Email" pattern=".{1,50}" title="Email musi zawierać od 1 do 50 znaków" required />
+    </div>
+    <div>
+        <label>Skrót hasła:</label>
+        <input type="text" asp-for="SkrotHasla" pattern=".{1,10}" title="Hasło musi mieć od 1 do 10 znaków." required />
+    </div>
+    <div>
+        <label>Numer telefonu:</label>
+        <input type="text" asp-for="NrTelefonu" pattern="[0-9]{9}" title="Telefon musi składać się z 9 cyfr." required />
+    </div>
+    <button type="submit">Zapisz zmiany</button>
+</form>

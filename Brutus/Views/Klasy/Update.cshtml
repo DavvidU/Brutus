@@ -1,0 +1,14 @@
+﻿@model Klasa
+
+<form action="Update" method="post">
+    <input type="hidden" asp-for="ID_Klasy" />
+    <div>
+        <label>Numer roku:</label>
+        <input type="number" asp-for="NumerRoku" min="1" max="9" required />
+    </div>
+    <div>
+        <label>Litera klasy:</label>
+        <input type="text" asp-for="LiteraKlasy" pattern="[A-Z]{1}" required />
+    </div>
+    <button type="submit">Zapisz zmiany</button>
+</form>

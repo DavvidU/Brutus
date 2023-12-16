@@ -1,11 +1,43 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
-<ul>
-    <li><a href="Konta/Create">Dodaj konto</a></li>
-    <li><a href="Przedmioty">Wyswietl konta</a></li>
-    <li><a href="Przedmioty">Usun konto</a></li>
-    <li><a href="Przedmioty">Edytuj konto</a></li>
-</ul>
+﻿@model List<Konto>
+
+<h1>Lista kont</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Imię</th>
+            <th>Nazwisko</th>
+            <th>Email</th>
+            <th>Skrót hasła</th>
+            <th>Numer telefonu</th>
+            <th>Akcje</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var konto in Model)
+        {
+            <tr>
+                <td>@konto.ID_Konta</td>
+                <td>@konto.Imie</td>
+                <td>@konto.Nazwisko</td>
+                <td>@konto.Email</td>
+                <td>@konto.SkrotHasla</td>
+                <td>@konto.NrTelefonu</td>
+                <td>
+                    <form action="/Konta/Update" method="get" style="display: inline;">
+                        <input type="hidden" name="id" value="@konto.ID_Konta" />
+                        <button type="submit">Edytuj</button>
+                    </form>
+                    <form action="/Konta/Delete" method="post" style="display: inline;">
+                        <input type="hidden" name="id" value="@konto.ID_Konta" />
+                        <button type="submit">Usuń</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<form action="/Konta/Create" method="get">
+    <button type="submit">Dodaj nowe konto</button>
+</form>
