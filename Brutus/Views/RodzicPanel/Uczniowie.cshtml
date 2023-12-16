@@ -15,9 +15,11 @@
         <tbody>
         @foreach (Konto kontoUcznia in Model.kontaUczniowTegoRodzica)
         {
-            <p>@kontoUcznia.ID_Konta</p>
-            <p>@kontoUcznia.Imie</p>
-            <p>@kontoUcznia.Nazwisko</p>
+            <tr>
+            <td>@kontoUcznia.ID_Konta</td>
+            <td>@kontoUcznia.Imie</td>
+            <td>@kontoUcznia.Nazwisko</td>
+            </tr>
         }
         </tbody>
     </table>
