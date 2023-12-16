@@ -29,5 +29,6 @@ namespace Brutus.Controllers
 
             return RedirectToAction("Index", "Konta");
         }
+   
     }
 }

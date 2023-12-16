@@ -16,11 +16,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <UpToDateCheckInput Remove="Views\Konta\Update.cshtml" />
+    <UpToDateCheckInput Remove="Views\Ogloszenia\AktualnosciEdit.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
-    <_ContentIncludedByDefault Remove="Views\Konta\Update.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Ogloszenia\AktualnosciEdit.cshtml" />
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,33 @@
+﻿@model IEnumerable<Brutus.Models.Test>
+
+<h2>Lista Testów</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Nazwa Testu</th>
+            <th>Czas Trwania</th>
+            <th>Liczba Zadań</th>
+            <th>Akcje</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var test in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => test.Nazwa)</td>
+                <td>@Html.DisplayFor(modelItem => test.CzasTrwania)</td>
+                <td>@Html.DisplayFor(modelItem => test.LiczbaZadan)</td>
+                <td>
+                    <a href="@Url.Action("Details", "Testy", new { idTestu = test.ID_Testu })">Podgląd Zadań</a>
+                    <form asp-action="RedirectToAddQuestions" asp-controller="Testy" method="get">
+                        <input type="hidden" name="id" value="@test.ID_Testu" />
+                        <input type="submit" value="Dodaj Pytania" />
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a href="@Url.Action("Create", "Testy")">Utwórz Nowy Test</a>
