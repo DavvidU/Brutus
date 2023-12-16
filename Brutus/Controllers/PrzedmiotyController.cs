@@ -222,10 +222,37 @@ namespace Brutus.Controllers
 
             return RedirectToAction("Index");
         }
-        public IActionResult ReadForNauczyciel()
+        [HttpGet]
+        public IActionResult ReadForNauczyciel(int idNauczyciela) // Przedmioty/ReadForNauczyciel?idNauczyciela=28
         {
-            var przedmioty = _context.Przedmioty.ToList();
-            return View(przedmioty);
+            // Znajdz konto nauczyciela do wyswietlenia go z jego przedmiotami
+            Konto kontoNauczyciela = _context.Konta.FirstOrDefault(k => k.ID_Konta == idNauczyciela);
+            if (kontoNauczyciela == null) { return NotFound(); }
+
+            // Znajdz przedmioty nalezace do tego nauczyciela
+            List<Przedmiot> przedmiotyNauczyciela = (from nauczycielePrzedmioty in _context.NauczycielePrzedmioty
+                                                     join przedmiot in _context.Przedmioty
+                                                     on nauczycielePrzedmioty.Przedmiot.ID_Przedmiotu equals przedmiot.ID_Przedmiotu
+                                                     where nauczycielePrzedmioty.Nauczyciel.ID_Nauczyciela == idNauczyciela
+                                                     select przedmiot).ToList();
+
+            // Stworz VievModel do zaprezentowania
+            var viewModel = new NauczycielWithPrzedmioty
+            {
+                KontoNauczyciela = kontoNauczyciela,
+                PrzedmiotyNauczyciela = przedmiotyNauczyciela
+            };
+            
+            return View(viewModel);
+        }
+        [HttpGet]
+        public IActionResult UczniowieNaPrzedmiocie(int idPrzedmiotu, int idNauczyciela)
+        {
+            
+            
+            var viewModel = new Object();
+
+            return View(viewModel);
         }
     }
 }
