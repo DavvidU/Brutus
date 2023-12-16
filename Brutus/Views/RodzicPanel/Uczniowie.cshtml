@@ -1,4 +1,4 @@
-@model List<Brutus.DTOs.UczenWithKonto>
+@model Brutus.DTOs.RodzicWithUczniowie
 
 <h1>Uczniowie</h1>
 
@@ -13,14 +13,11 @@
         </tr>
         </thead>
         <tbody>
-        @foreach (var uczen in Model)
+        @foreach (Konto kontoUcznia in Model.kontaUczniowTegoRodzica)
         {
-            <tr>
-                <td>@uczen.ID_Ucznia</td>
-                <td>@uczen.Imie</td>
-                <td>@uczen.Nazwisko</td>
-                <!--<td>@uczen.ID_Rodzica</td>-->
-            </tr>
+            <p>@kontoUcznia.ID_Konta</p>
+            <p>@kontoUcznia.Imie</p>
+            <p>@kontoUcznia.Nazwisko</p>
         }
         </tbody>
     </table>
