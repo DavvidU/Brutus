@@ -23,11 +23,13 @@
 @if (Model != null && Model.Any())
 {
     <table class="announcement-table">
+
         <thead>
             <tr>
                 <th>ID</th>
                 <th>Nauczyciel</th>
                 <th class="content-column">Treść</th>
+
             </tr>
         </thead>
         <tbody>
@@ -37,6 +39,7 @@
                     <td>@ogloszenie.ID_Ogloszenia</td>
                     <td>@ogloszenie.Nauczyciel</td>
                     <td class="content-column">@ogloszenie.Tresc</td>
+
                 </tr>
             }
         </tbody>

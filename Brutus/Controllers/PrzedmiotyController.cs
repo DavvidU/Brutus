@@ -253,6 +253,7 @@ namespace Brutus.Controllers
             var viewModel = new Object();
 
             return View(viewModel);
+
         }
     }
 }

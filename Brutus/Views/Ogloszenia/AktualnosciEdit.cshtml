@@ -31,11 +31,13 @@
 
 @model List<Brutus.Models.Ogloszenie>
 
+
 <h1>Edytor ogłoszeń</h1>
 
 @if (Model != null && Model.Any())
 {
     <table class="announcement-table">
+
         <thead>
             <tr>
                 <th>ID</th>
@@ -57,6 +59,7 @@
                             <button type="submit">Edytuj</button>
                         </form>
                         <form action="/Ogloszenia/AktualnosciEdit" method="post" style="display: inline;">
+
                             <input type="hidden" name="id" value="@ogloszenie.ID_Ogloszenia" />
                             <button type="submit">Usuń</button>
                         </form>
@@ -70,7 +73,6 @@ else
 {
     <p>Brak ogłoszeń do wyświetlenia.</p>
 }
-
 <form action="/Ogloszenia/Create" method="get">
     <button type="submit">Dodaj ogłoszenie</button>
 </form>
