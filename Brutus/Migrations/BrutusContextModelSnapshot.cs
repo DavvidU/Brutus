@@ -604,7 +604,7 @@ namespace Brutus.Migrations
 
             modelBuilder.Entity("Brutus.Models.Ocena", b =>
                 {
-                    b.HasOne("Brutus.Models.Nauczyciel", "Nauczyciel")
+                    b.HasOne("Brutus.Models.Wychowawca", "Nauczyciel")
                         .WithMany()
                         .HasForeignKey("ID_Nauczyciela");
 
