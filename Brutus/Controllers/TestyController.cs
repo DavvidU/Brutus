@@ -39,6 +39,13 @@ namespace Brutus.Controllers
             IEnumerable<Test> testy = _context.Testy.ToList();
             return View(testy);
         }
+        
+        public IActionResult ShowForUczen()
+        {
+            IEnumerable<Test> testy = _context.Testy.ToList();
+            return View(testy);
+        }
+        
         [HttpGet]
         public IActionResult RedirectToAddQuestions(int id)
         {
