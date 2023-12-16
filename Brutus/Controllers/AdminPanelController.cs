@@ -12,7 +12,7 @@ namespace Brutus.Controllers
         {
             return RedirectToAction("Index", "Konta");
         }
-        public IActionResult Przedmioty()
+        public IActionResult Predmioty()
         {
             return RedirectToAction("Index", "Przedmioty");
         }

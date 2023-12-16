@@ -24,12 +24,4 @@
     <_ContentIncludedByDefault Remove="Views\Ogloszenia\AktualnosciEdit.cshtml" />
   </ItemGroup>
 
-  <ItemGroup>
-    <UpToDateCheckInput Remove="Views\Konta\Update.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="Views\Konta\Update.cshtml" />
-  </ItemGroup>
-
 </Project>
