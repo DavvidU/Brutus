@@ -248,7 +248,7 @@ namespace Brutus.Controllers
         [HttpGet]
         public IActionResult UczniowieNaPrzedmiocie(int idPrzedmiotu, int idNauczyciela)
         {
-            
+            // dodaj ocene i ???
             
             var viewModel = new Object();
 
