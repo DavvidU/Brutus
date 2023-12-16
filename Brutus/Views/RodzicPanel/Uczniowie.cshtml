@@ -1,0 +1,28 @@
+@model Brutus.DTOs.RodzicWithUczniowie
+
+<h1>Uczniowie</h1>
+
+@if (Model != null)
+{
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Imie</th>
+            <th>Nazwisko</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (Konto kontoUcznia in Model.kontaUczniowTegoRodzica)
+        {
+            <p>@kontoUcznia.ID_Konta</p>
+            <p>@kontoUcznia.Imie</p>
+            <p>@kontoUcznia.Nazwisko</p>
+        }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Brak dzieci do wyświetlenia.</p>
+}

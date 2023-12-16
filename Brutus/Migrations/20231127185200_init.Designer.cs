@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Brutus.Migrations
 {
     [DbContext(typeof(BrutusContext))]
-    [Migration("20231127002150_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20231127185200_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -607,7 +607,7 @@ namespace Brutus.Migrations
 
             modelBuilder.Entity("Brutus.Models.Ocena", b =>
                 {
-                    b.HasOne("Brutus.Models.Wychowawca", "Nauczyciel")
+                    b.HasOne("Brutus.Models.Nauczyciel", "Nauczyciel")
                         .WithMany()
                         .HasForeignKey("ID_Nauczyciela");
 

@@ -1,0 +1,44 @@
+﻿@model List<Brutus.Models.Ogloszenie>
+
+<h1>Edytor ogłoszeń</h1>
+
+@if (Model != null && Model.Any())
+{
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nauczyciel</th>
+                <th>Treść</th>
+                <th>Akcje</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var ogloszenie in Model)
+            {
+                <tr>
+                    <td>@ogloszenie.ID_Ogloszenia</td>
+                    <td>@ogloszenie.Nauczyciel</td>
+                    <td>@ogloszenie.Tresc</td>
+                    <td>
+                        <form action="/Ogloszenia/Update" method="get" style="display: inline;">
+                            <input type="hidden" name="id" value="@ogloszenie.ID_Ogloszenia" />
+                            <button type="submit">Edytuj</button>
+                        </form>
+                        <form action="/Ogloszenia/Delete" method="post" style="display: inline;">
+                            <input type="hidden" name="id" value="@ogloszenie.ID_Ogloszenia" />
+                            <button type="submit">Usuń</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Brak ogłoszeń do wyświetlenia.</p>
+}
+<form action="/Ogloszenia/Create" method="get">
+    <button type="submit">Dodaj ogłoszenie</button>
+</form>

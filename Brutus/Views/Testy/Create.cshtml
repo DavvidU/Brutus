@@ -1,0 +1,26 @@
+﻿@model Brutus.Models.Test
+
+<h2>Utwórz Nowy Test</h2>
+
+<form asp-action="Create" asp-controller="Testy" method="post">
+    <table>
+        <tr>
+            <td>Nazwa testu:</td>
+            <td><input type="text" asp-for="Nazwa" maxlength="50" required /></td>
+        </tr>
+        <tr>
+            <td>Czas trwania (hh:mm:ss):</td>
+            <td><input type="text" asp-for="CzasTrwania" pattern="\d{1,2}:\d{2}:\d{2}" title="Podaj czas w formacie hh:mm:ss" required /></td>
+        </tr>
+        <tr>
+            <td>Liczba zadań:</td>
+            <td><input type="number" asp-for="LiczbaZadan" min="1" required /></td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+            <td><input type="submit" value="Utwórz test" /></td>
+        </tr>
+    </table>
+</form>
+
+<a href="@Url.Action("Index", "Testy")">Wróć</a>

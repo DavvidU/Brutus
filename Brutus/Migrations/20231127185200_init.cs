@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Brutus.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -397,6 +397,11 @@ namespace Brutus.Migrations
                 {
                     table.PrimaryKey("PK_Oceny", x => x.ID_Oceny);
                     table.ForeignKey(
+                        name: "FK_Oceny_Nauczyciele_ID_Nauczyciela",
+                        column: x => x.ID_Nauczyciela,
+                        principalTable: "Nauczyciele",
+                        principalColumn: "ID_Nauczyciela");
+                    table.ForeignKey(
                         name: "FK_Oceny_Przedmioty_ID_Przedmiotu",
                         column: x => x.ID_Przedmiotu,
                         principalTable: "Przedmioty",
@@ -406,11 +411,6 @@ namespace Brutus.Migrations
                         column: x => x.ID_Ucznia,
                         principalTable: "Uczniowie",
                         principalColumn: "ID_Ucznia");
-                    table.ForeignKey(
-                        name: "FK_Oceny_Wychowawcy_ID_Nauczyciela",
-                        column: x => x.ID_Nauczyciela,
-                        principalTable: "Wychowawcy",
-                        principalColumn: "ID_Wychowawcy");
                 });
 
             migrationBuilder.CreateTable(

@@ -17,7 +17,7 @@ namespace Brutus.Models
         public virtual Uczen? Uczen { get; set; }
 
         [ForeignKey("ID_Nauczyciela")]
-        public virtual Wychowawca? Nauczyciel { get; set; }
+        public virtual Nauczyciel? Nauczyciel { get; set; } //moze tez byc Wychowawca
 
         [ForeignKey("ID_Przedmiotu")]
         public virtual Przedmiot? Przedmiot { get; set; }
