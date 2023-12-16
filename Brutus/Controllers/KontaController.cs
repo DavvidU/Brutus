@@ -15,6 +15,7 @@ namespace Brutus.Controllers
 
         public IActionResult Index()
         {
+            Read();
             return View();
         }
         public IActionResult Create()
@@ -68,15 +69,56 @@ namespace Brutus.Controllers
         }
         public IActionResult Read()
         {
-            return View();
+            var przedmioty = _context.Konta.ToList();
+            return View(przedmioty);
         }
-        public IActionResult Update()
+        [HttpGet]
+        public IActionResult Update(int id)
         {
-            return View();
+            var konto = _context.Konta.FirstOrDefault(k => k.ID_Konta == id);
+            if (konto == null)
+                return NotFound();
+
+            return View(konto);
         }
+        [HttpPost]
+        public IActionResult Update(Konto konto)
+        {
+            if(ModelState.IsValid)
+            {
+                var existingKonto = _context.Konta.FirstOrDefault(k => k.ID_Konta == konto.ID_Konta);
+
+                if (existingKonto == null)
+                    return NotFound();
+
+                existingKonto.Imie = konto.Imie;
+                existingKonto.Nazwisko = konto.Nazwisko;
+                existingKonto.Email = konto.Email;
+                existingKonto.SkrotHasla = konto.SkrotHasla;
+                existingKonto.NrTelefonu = konto.NrTelefonu;
+
+                _context.SaveChanges();
+
+                return RedirectToAction("Index");
+            }
+
+            return View(konto);
+        }
+        [HttpGet]
         public IActionResult Delete()
         {
             return View();
+        }
+        [HttpPost]
+        public IActionResult Delete(int id)
+        {
+            var kontoDoUsuniecia = _context.Konta.FirstOrDefault(k => k.ID_Konta == id);
+            if (kontoDoUsuniecia == null)
+                return NotFound();
+
+            _context.Konta.Remove(kontoDoUsuniecia);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
         }
     }
 }

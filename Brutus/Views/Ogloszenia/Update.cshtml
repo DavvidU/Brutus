@@ -1,0 +1,12 @@
+﻿@model Brutus.Models.Ogloszenie
+
+<form action="/Ogloszenia/Update" method="post">
+    <input type="hidden" asp-for="ID_Ogloszenia" />
+    <div>
+        <label for="trescEdycja">Treść:</label>
+        <textarea id="trescEdycja" asp-for="Tresc" pattern=".{1,500}" title="Maksymalnie 500 znaków"></textarea>
+    </div>
+    <div>
+        <button type="submit">Zapisz zmiany</button>
+    </div>
+</form>

@@ -1,0 +1,34 @@
+﻿@model Brutus.DTOs.NauczycielWithPrzedmioty
+
+<h1>Nauczyciel</h1>
+<h2>@Model.KontoNauczyciela.Imie</h2>
+<h2>@Model.KontoNauczyciela.Nazwisko</h2>
+
+<h2></h2>
+<h2>Przedmioty nauczyciela</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID Przedmiotu</th>
+            <th>Nazwa</th>
+            <th>Akcje</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var przedmiot in Model.PrzedmiotyNauczyciela)
+        {
+            <tr>
+                <td>@przedmiot.ID_Przedmiotu</td>
+                <td>@przedmiot.Nazwa</td>
+                <td>
+                    <form action="/Przedmioty/UczniowieNaPrzedmiocie" method="get" style="display: inline;">
+                        <input type="hidden" name="idPrzedmiotu" value="@przedmiot.ID_Przedmiotu" />
+                        <input type="hidden" name="idNauczyciela" value="@Model.KontoNauczyciela.ID_Konta" />
+                        <button type="submit">Wyświetl uczniów na przedmiocie</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

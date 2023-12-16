@@ -1,0 +1,25 @@
+﻿@model Brutus.DTOs.SetRodzicViewModel
+
+<h2>Ustaw Rodzica</h2>
+
+@using (Html.BeginForm("UstawRodzica", "Uczniowie", FormMethod.Post))
+{
+    @Html.HiddenFor(model => model.ID_Ucznia)
+
+    <div>
+        <h3>Uczeń: @Model.ImieUcznia @Model.NazwiskoUcznia</h3>
+    </div>
+
+    <div>
+        @Html.LabelFor(model => model.WybranyRodzicID, "Wybierz rodzica:")
+        @Html.DropDownListFor(model => model.WybranyRodzicID, Model.Rodzice, "-- Wybierz --")
+    </div>
+
+    <div>
+        <input type="submit" value="Ustaw rodzica" class="btn btn-primary" />
+    </div>
+}
+
+<p>
+    @Html.ActionLink("Wróć", "ZarzadzanieUczniami", "Uczniowie", new { }, new { @class = "btn btn-secondary" })
+</p>

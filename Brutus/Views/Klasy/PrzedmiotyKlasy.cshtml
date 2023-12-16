@@ -1,0 +1,41 @@
+﻿@model Brutus.DTOs.KlasaWithPrzedmioty
+
+<h2>Klasa</h2>
+<p>ID Klasy: @Model.Klasa.ID_Klasy</p>
+<p>Numer Roku: @Model.Klasa.NumerRoku</p>
+<p>Litera Klasy: @Model.Klasa.LiteraKlasy</p>
+
+<h2>Przedmioty Klasy</h2>
+<table>
+    <tr>
+        <th>ID Przedmiotu</th>
+        <th>Nazwa</th>
+        <th>Akcje</th>
+    </tr>
+    @foreach (var przedmiot in Model.Przedmioty)
+    {
+        <tr>
+            <td>@przedmiot.ID_Przedmiotu</td>
+            <td>@przedmiot.Nazwa</td>
+            <td>
+                @Html.ActionLink("Usuń z klasy", "UsunPrzedmiotZKlasy", new { idKlasy = Model.Klasa.ID_Klasy, idPrzedmiotu = przedmiot.ID_Przedmiotu })
+            </td>
+        </tr>
+    }
+</table>
+
+@using (Html.BeginForm("PrzypiszPrzedmiotDoKlasy", "Klasy", FormMethod.Post))
+{
+    @Html.HiddenFor(model => model.Klasa.ID_Klasy)
+
+    <div>
+        @Html.DropDownListFor(model => model.WybranyPrzedmiotID, Model.WszystkiePrzedmioty, "Wybierz przedmiot")
+    </div>
+
+    <div>
+        <input type="submit" value="Przypisz przedmiot" class="btn btn-primary" />
+    </div>
+}
+<p>
+    @Html.ActionLink("Wróć", "Index", "Klasy", new { }, new { @class = "btn btn-secondary" })
+</p>

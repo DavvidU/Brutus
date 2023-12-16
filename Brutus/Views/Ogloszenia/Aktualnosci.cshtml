@@ -1,0 +1,51 @@
+﻿<style>
+    .announcement-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        .announcement-table th, .announcement-table td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+
+            .announcement-table th.content-column, .announcement-table td.content-column {
+                font-weight: bold;
+                background-color: #f0f0f0;
+            }
+</style>
+
+@model List<Brutus.Models.Ogloszenie>
+
+<h1>Aktualności</h1>
+
+@if (Model != null && Model.Any())
+{
+    <table class="announcement-table">
+
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nauczyciel</th>
+            <th class="content-column">Treść</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var ogloszenie in Model)
+        {
+            <tr>
+                <td>@ogloszenie.ID_Ogloszenia</td>
+                <td>@ogloszenie.Nauczyciel</td>
+                <td class="content-column">@ogloszenie.Tresc</td>
+
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Brak ogłoszeń do wyświetlenia.</p>
+}

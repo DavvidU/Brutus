@@ -1,0 +1,25 @@
+﻿@model Brutus.DTOs.SetKlasaViewModel
+
+<h2>Przypisz do Klasy</h2>
+
+@using (Html.BeginForm("PrzypiszDoKlasy", "Uczniowie", FormMethod.Post))
+{
+    @Html.HiddenFor(model => model.ID_Ucznia)
+
+    <div>
+        <h3>Uczeń: @Model.ImieUcznia @Model.NazwiskoUcznia</h3>
+    </div>
+
+    <div>
+        @Html.LabelFor(model => model.WybranaKlasaID, "Wybierz klasę:")
+        @Html.DropDownListFor(model => model.WybranaKlasaID, Model.Klasy, "-- Wybierz --")
+    </div>
+
+    <div>
+        <input type="submit" value="Przypisz do klasy" class="btn btn-primary" />
+    </div>
+}
+
+<p>
+    @Html.ActionLink("Wróć", "ZarzadzanieUczniami", "Uczniowie", new { }, new { @class = "btn btn-secondary" })
+</p>

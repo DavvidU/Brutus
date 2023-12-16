@@ -1,0 +1,45 @@
+﻿@model List<Brutus.DTOs.UczenWithKlasaWithRodzic>
+
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+</style>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID Ucznia</th>
+            <th>Imię i Nazwisko Ucznia</th>
+            <th>Klasa</th>
+            <th>Imię i Nazwisko Rodzica</th>
+            <th>Akcje</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var uczen in Model)
+        {
+            <tr>
+                <td>@uczen.ID_Ucznia</td>
+                <td>@uczen.ImieUcznia @uczen.NazwiskoUcznia</td>
+                <td>@uczen.NumerRoku @uczen.LiteraKlasy (ID: @uczen.ID_Klasy)</td>
+                <td>@uczen.ImieRodzica @uczen.NazwiskoRodzica</td>
+                <td>
+                    @Html.ActionLink("Ustaw rodzica", "UstawRodzica", "Uczniowie", new { idUcznia = uczen.ID_Ucznia }, new { @class = "btn btn-primary" })
+                    @Html.ActionLink("Przypisz do klasy", "PrzypiszDoKlasy", "Uczniowie", new { idUcznia = uczen.ID_Ucznia }, new { @class = "btn btn-secondary" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
