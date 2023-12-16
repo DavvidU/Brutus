@@ -1,16 +1,13 @@
-﻿@model List<Brutus.DTOs.PrzedmiotWithNauczyciel>
+﻿@model List<Przedmiot>
 
 <h1>Lista przedmiotów</h1>
 
 <table>
     <thead>
         <tr>
-            <th>ID przedmiotu</th>
-            <th>Nazwa przedmiotu</th>
-            <th>Opis przedmiotu</th>
-            <th>ID nauczyciela</th>
-            <th>Imię nauczyciela</th>
-            <th>Nazwisko nauczyciela</th>
+            <th>ID</th>
+            <th>Nazwa</th>
+            <th>Opis</th>
             <th>Akcje</th>
         </tr>
     </thead>
@@ -19,16 +16,9 @@
         {
             <tr>
                 <td>@przedmiot.ID_Przedmiotu</td>
-                <td>@przedmiot.PrzedmiotNazwa</td>
-                <td>@przedmiot.PrzedmiotOpis</td>
-                <td>@przedmiot.ID_Nauczyciela</td>
-                <td>@przedmiot.NauczycielImie</td>
-                <td>@przedmiot.NauczycielNazwisko</td>
+                <td>@przedmiot.Nazwa</td>
+                <td>@przedmiot.Opis</td>
                 <td>
-                    <form action="/Przedmioty/SetNauczyciel" method="get" style="display: inline;">
-                        <input type="hidden" name="idPrzedmiotu" value="@przedmiot.ID_Przedmiotu" />
-                        <button type="submit">Przypisz nauczyciela</button>
-                    </form>
                     <form action="/Przedmioty/Update" method="get" style="display: inline;">
                         <input type="hidden" name="id" value="@przedmiot.ID_Przedmiotu" />
                         <button type="submit">Edytuj</button>

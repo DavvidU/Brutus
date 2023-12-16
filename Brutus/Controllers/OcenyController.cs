@@ -1,40 +1,25 @@
-﻿using Brutus.Data;
-using Brutus.Models;
+using System.Linq;
+using Brutus.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace Brutus.Controllers
+public class OcenyController : Controller
 {
-    public class OcenyController : Controller
+    private readonly BrutusContext _context;
+
+    public OcenyController(BrutusContext context)
     {
-        private BrutusContext _context;
+        _context = context;
+    }
 
-        public OcenyController(BrutusContext context)
-        {
-            _context = context;
-        }
-        public IActionResult Index()
-        {
-            return View();
-        }
-        public IActionResult Create() 
-        {
-            return View();
-        }
-        [HttpPost]
-        public IActionResult Create(Ocena ocena)
-        {
+    public IActionResult Index(int idUcznia)
+    {
+        // Assuming you have a relationship between Uczen and Ocena
+        var oceny = _context.Oceny
+            .Include(o => o.Przedmiot) // Make sure to include Przedmiot
+            //here(o => o.UczenID == idUcznia)
+            .ToList();
 
-            if (ModelState.IsValid)
-            {
-                _context.Oceny.Add(ocena);
-                _context.SaveChanges();
-
-                return RedirectToAction("Index");
-            }
-
-            return View(ocena);
-        }
-
+        return View(oceny);
     }
 }
