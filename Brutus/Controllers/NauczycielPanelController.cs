@@ -28,5 +28,9 @@ namespace Brutus.Controllers
         {
             return RedirectToAction("Index", "Wiadomosci");
         }
+        public IActionResult Test()
+        {
+            return RedirectToAction("Index","Testy");
+        }
     }
 }
