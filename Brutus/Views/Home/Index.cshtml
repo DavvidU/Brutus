@@ -1,8 +1,8 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@if (User.Identity.IsAuthenticated)
+{
+    <p>Jesteś zalogowany jako @User.Identity.Name</p>
 }
-
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+else
+{
+    <a class="btn btn-primary" href="@Url.Action("Login", "Home")">Zaloguj się</a>
+}

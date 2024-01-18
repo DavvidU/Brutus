@@ -4,10 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Brutus.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Brutus.Data
 {
-    public class BrutusContext : DbContext
+    public class BrutusContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<Konto> Konta { get; set; }
         public DbSet<Rodzic> Rodzice { get; set; }

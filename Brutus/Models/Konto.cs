@@ -18,5 +18,8 @@ namespace Brutus.Models
         [MaxLength(10)]
         public string SkrotHasla { get; set; }
         public int NrTelefonu { get; set; }
+
+        // Pole do przechowywania identyfikatora u¿ytkownika z Identity
+        public string ApplicationUserId { get; set; }
     }
 }

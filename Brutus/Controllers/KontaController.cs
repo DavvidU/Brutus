@@ -1,5 +1,6 @@
 ﻿using Brutus.Data;
 using Brutus.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
@@ -8,9 +9,12 @@ namespace Brutus.Controllers
     public class KontaController : Controller
     {
         private BrutusContext _context;
-        public KontaController(BrutusContext context)
+        private UserManager<ApplicationUser> _userManager; /* Identity */
+        public KontaController(BrutusContext context, UserManager<ApplicationUser> userManager, 
+            RoleManager<IdentityRole> roleManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         public IActionResult Index()
@@ -31,41 +35,47 @@ namespace Brutus.Controllers
         konto.SkrotHasla = SkrotHasla;
         konto.NrTelefonu = NrTelefonu; */
         [HttpPost]
-        public IActionResult Create(string Imie, string Nazwisko, string Email, string SkrotHasla, int NrTelefonu, string TypKonta)
+        public async Task<IActionResult> Create(string Imie, string Nazwisko, string Email, string SkrotHasla, int NrTelefonu, string TypKonta)
         {
-            //if (ModelState.IsValid)
-            //{
+            /* Konto - Identity */
+
+            var user = new ApplicationUser { UserName = Email, Email = Email, PhoneNumber = NrTelefonu.ToString()};
+            var result = await _userManager.CreateAsync(user, SkrotHasla);
+
+            /* Konto - biznesowa logika */
+
             Konto konto = new Konto();
             konto.Imie = Imie;
             konto.Nazwisko = Nazwisko;
             konto.Email = Email;
             konto.SkrotHasla = SkrotHasla;
             konto.NrTelefonu = NrTelefonu;
+            konto.ApplicationUserId = user.Id;
             string typTworzonegoKonta = TypKonta;
             int idTworzonegoKonta;
 
-            if (ModelState.IsValid)
+            if (result.Succeeded)
             {
-                _context.Konta.Add(konto);
-                _context.SaveChanges();
-                
-                idTworzonegoKonta = _context.Konta.OrderByDescending(x => x.ID_Konta).FirstOrDefault().ID_Konta;
-                //  idTworzonegoKonta = konto.ID_Konta;
-                
-                if(typTworzonegoKonta == "Admin")
-                    return RedirectToAction("Create", "Admini", new { idDodanegoKonta = idTworzonegoKonta });
-                if (typTworzonegoKonta == "Uczen")
-                    return RedirectToAction("Create", "Uczniowie", new { idDodanegoKonta = idTworzonegoKonta });
-                if (typTworzonegoKonta == "Rodzic")
-                    return RedirectToAction("Create", "Rodzice", new { idDodanegoKonta = idTworzonegoKonta });
-                if (typTworzonegoKonta == "Nauczyciel")
-                    return RedirectToAction("Create", "Nauczyciele", new { idDodanegoKonta = idTworzonegoKonta });
+                await _userManager.AddToRoleAsync(user, TypKonta);
+
+                if (ModelState.IsValid)
+                {
+                    _context.Konta.Add(konto);
+                    _context.SaveChanges();
+
+                    idTworzonegoKonta = _context.Konta.OrderByDescending(x => x.ID_Konta).FirstOrDefault().ID_Konta;
+
+                    if (typTworzonegoKonta == "Admin")
+                        return RedirectToAction("Create", "Admini", new { idDodanegoKonta = idTworzonegoKonta });
+                    if (typTworzonegoKonta == "Uczen")
+                        return RedirectToAction("Create", "Uczniowie", new { idDodanegoKonta = idTworzonegoKonta });
+                    if (typTworzonegoKonta == "Rodzic")
+                        return RedirectToAction("Create", "Rodzice", new { idDodanegoKonta = idTworzonegoKonta });
+                    if (typTworzonegoKonta == "Nauczyciel")
+                        return RedirectToAction("Create", "Nauczyciele", new { idDodanegoKonta = idTworzonegoKonta });
+                }
             }
-            //}
-
-                return View(konto);
-
-            
+            return View(konto);
         }
         public IActionResult Read()
         {
