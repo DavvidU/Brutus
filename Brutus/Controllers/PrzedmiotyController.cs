@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using Brutus.DTOs;
 using Microsoft.AspNetCore.Mvc.Rendering; // do SelectList (wyswietlanie listy nauczycieli)
+using Microsoft.AspNet.Identity;
+using Brutus.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Brutus.Controllers
 {
@@ -223,8 +226,17 @@ namespace Brutus.Controllers
             return RedirectToAction("Index");
         }
         [HttpGet]
-        public IActionResult ReadForNauczyciel(int idNauczyciela) // Przedmioty/ReadForNauczyciel?idNauczyciela=28
+        [Authorize(Roles = "Nauczyciel")]
+        public IActionResult ReadForNauczyciel() // Przedmioty/ReadForNauczyciel?idNauczyciela=28
         {
+            string userId = User.Identity.GetUserId();
+
+            int idNauczyciela = IdTranslator.TranslateToBusinessId(userId, _context);
+            if (idNauczyciela == -1) { return NotFound(); }
+
+            //if (!AccesVerification.Verify(idNauczyciela, userId, _context))
+                //return RedirectToAction("AccesDenied", "Home");
+
             // Znajdz konto nauczyciela do wyswietlenia go z jego przedmiotami
             Konto kontoNauczyciela = _context.Konta.FirstOrDefault(k => k.ID_Konta == idNauczyciela);
             if (kontoNauczyciela == null) { return NotFound(); }

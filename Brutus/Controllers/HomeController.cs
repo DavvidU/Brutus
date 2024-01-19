@@ -54,7 +54,10 @@ namespace Brutus.Controllers
         {
             return View();
         }
-
+        public IActionResult AccesDenied()
+        {
+            return View();
+        }
         public IActionResult Privacy()
         {
             return View();

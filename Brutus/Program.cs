@@ -9,20 +9,16 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<BrutusContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("BrutusContext") ?? throw new InvalidOperationException("Connection string 'BrutusContext' not found.")));
 
-// Dodaj Identity, wykorzystując ten sam kontekst bazy danych
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<BrutusContext>()
     .AddDefaultTokenProviders();
 
-// Add services to the container.
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
-// Inicjalizacja ról
 await InitializeRoles(app);
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -44,7 +40,6 @@ app.MapControllerRoute(
 
 app.Run();
 
-// Metoda do inicjalizacji ról
 async Task InitializeRoles(IHost app)
 {
     using var scope = app.Services.CreateScope();
@@ -57,7 +52,6 @@ async Task InitializeRoles(IHost app)
         var roleExist = await roleManager.RoleExistsAsync(roleName);
         if (!roleExist)
         {
-            // Utwórz role i zapisz w bazie danych
             await roleManager.CreateAsync(new IdentityRole(roleName));
         }
     }
