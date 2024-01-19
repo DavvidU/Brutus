@@ -20,7 +20,7 @@
             <td>@Html.DisplayFor(modelItem => test.LiczbaZadan)</td>
             <td><form action="/Testy/RozwiazywanieTestu" method="get">
                     <input type="hidden" name="idTestu" value="@test.ID_Testu" />
-                    <button type="submit">Rozpocznij Test</button>
+                        <button type="submit" class="btn">Rozpocznij Test</button>
                 </form> 
             </td>
         </tr>
@@ -29,5 +29,5 @@
 </table>
 
 <form action="/UczenPanel" method="get">
-    <button type="submit">Wróć do menu ucznia</button>
+    <button type="submit" class="btn">Wróć do menu ucznia</button>
 </form> 

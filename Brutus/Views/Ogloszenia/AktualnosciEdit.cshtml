@@ -56,12 +56,12 @@
                     <td>
                         <form action="/Ogloszenia/Update" method="get" style="display: inline;">
                             <input type="hidden" name="id" value="@ogloszenie.ID_Ogloszenia" />
-                            <button type="submit">Edytuj</button>
+                            <button type="submit" class="btn">Edytuj</button>
                         </form>
                         <form action="/Ogloszenia/AktualnosciEdit" method="post" style="display: inline;">
 
                             <input type="hidden" name="id" value="@ogloszenie.ID_Ogloszenia" />
-                            <button type="submit">Usuń</button>
+                            <button type="submit" class="btn-delete">Usuń</button>
                         </form>
                     </td>
                 </tr>
@@ -74,5 +74,5 @@ else
     <p>Brak ogłoszeń do wyświetlenia.</p>
 }
 <form action="/Ogloszenia/Create" method="get">
-    <button type="submit">Dodaj ogłoszenie</button>
+    <button type="submit" class="btn">Dodaj ogłoszenie</button>
 </form>

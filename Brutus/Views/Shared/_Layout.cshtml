@@ -3,14 +3,14 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Brutus</title>
+    <title>Brutus</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Brutus.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-violet border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Brutus</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -19,38 +19,94 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
+                        
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="AdminPanel" asp-action="Index">Admin Panel</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="NauczycielPanel" asp-action="Index">Nauczyciel Panel</a>
+                        
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Konta" asp-action="Index">Konta</a>
                             </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="UczenPanel" asp-action="Index">Uczeń Panel</a>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Przedmioty" asp-action="Index">Przedmioty</a>
                             </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="RodzicPanel" asp-action="Index">Rodzic Panel</a>
-                        </li>
-                        <li class="nav-item">
-                            @if (User.Identity.IsAuthenticated)
-                            {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Klasy" asp-action="Index">Klasy</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Uczniowie" asp-action="ZarzadzanieUczniami">Uczniowie</a>
+                            </li>
+                        }
+
+                        else if (User.IsInRole("Nauczyciel"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Ogloszenia" asp-action="Index">Ogłoszenia</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Przedmioty" asp-action="ReadForNauczyciel" asp-route-idNauczyciela="28">Przedmioty</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Wiadomosci" asp-action="Index">Wiadomości</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Testy" asp-action="Index">Testy</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Oceny" asp-action="Index">Oceny</a>
+                            </li>
+                        }
+
+                        else if (User.IsInRole("Rodzic"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="RodzicPanel" asp-action="Uczniowie">Uczniowie</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Wiadomosci" asp-action="Index">Wiadomości</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Ogloszenia" asp-action="Aktualnosci">Aktualności</a>
+                            </li>
+                        }
+
+                        else if (User.IsInRole("Uczen"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="UczenPanel" asp-action="Oceny">Oceny</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Testy" asp-action="ShowForUczen">Testy</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Wiadomosci" asp-action="Index">Wiadomości</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Ogloszenia" asp-action="Aktualnosci">Aktualności</a>
+                            </li>
+                        }
+
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
                                 <form asp-action="Logout" asp-controller="Home" method="post">
                                     <button type="submit" class="btn btn-link">Wyloguj się</button>
                                 </form>
-                            }
-                            @if (!(User.Identity.IsAuthenticated))
-                            {
+                            </li>
+                            <li class="nav-item">
+                                @User.Identity.Name
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
                                 <form asp-action="Login" asp-controller="Home" method="get">
                                     <button type="submit" class="btn btn-link">Zaloguj się</button>
                                 </form>
-                            }
-                        </li>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
@@ -62,9 +118,9 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer>
         <div class="container">
-            &copy; 2023 - Brutus - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2024 - Brutus - Dawid Ugniewski - Adam Bagiński
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

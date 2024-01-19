@@ -2,6 +2,9 @@
 
 <h1>Lista kont</h1>
 
+<form action="/Konta/Create" method="get">
+    <button type="submit" class="btn">Dodaj nowe konto</button>
+</form>
 <table>
     <thead>
     <tr>
@@ -27,17 +30,14 @@
             <td>
                 <form action="/Konta/Update" method="get" style="display: inline;">
                     <input type="hidden" name="id" value="@konto.ID_Konta" />
-                    <button type="submit">Edytuj</button>
+                        <button type="submit" class="btn">Edytuj</button>
                 </form>
                 <form action="/Konta/Delete" method="post" style="display: inline;">
                     <input type="hidden" name="id" value="@konto.ID_Konta" />
-                    <button type="submit">Usuń</button>
+                        <button type="submit" class="btn-delete">Usuń</button>
                 </form>
             </td>
         </tr>
     }
     </tbody>
 </table>
-<form action="/Konta/Create" method="get">
-    <button type="submit">Dodaj nowe konto</button>
-</form>

@@ -1,8 +1,31 @@
-﻿@if (User.Identity.IsAuthenticated)
-{
-    <p>Jesteś zalogowany jako @User.Identity.Name</p>
+﻿@{
+    ViewData["Title"] = "Strona główna";
 }
-else
-{
-    <a class="btn btn-primary" href="@Url.Action("Login", "Home")">Zaloguj się</a>
-}
+
+<div class="main-banner">
+    <h1>Witaj w systemie Brutus!</h1>
+    <p class="lead">Dzienniku elektronicznym, na który zawsze możesz liczyć.</p>
+</div>
+
+<section class="features">
+    <div class="row">
+        <div class="feature-box col-md-4">
+            <h3>Nauka to potęgi klucz</h3>
+            <p>Narzędzie to zostało zaprojektowane z myślą o usprawnianiu pracy placówek szkolnych.</p>
+        </div>
+        <div class="feature-box col-md-4">
+            <h4>Skąd wziąć dane do logowania?</h4>
+            <p>Skontatuj się z osobą, która jest administratorem Brutusa w Twojej placówce szkolnej.</p>
+        </div>
+        <div class="feature-box col-md-4">
+            <h3>Dziennik dla wszystkich</h3>
+            <p>Uczniów, rodziców oraz nauczycieli.</p>
+        </div>
+    </div>
+</section>
+
+<section class="about-us">
+    <h2>Autrzorzy</h2>
+    <p>Dawid Ugniewski</p>
+    <p>Adam Bagiński</p>
+</section>

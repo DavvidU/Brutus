@@ -2,6 +2,9 @@
 
 <h1>Lista przedmiotów</h1>
 
+<form action="/Przedmioty/Create" method="get">
+    <button type="submit" class="btn">Dodaj nowy przedmiot</button>
+</form>
 <table>
     <thead>
     <tr>
@@ -27,21 +30,18 @@
             <td>
                 <form action="/Przedmioty/SetNauczyciel" method="get" style="display: inline;">
                     <input type="hidden" name="idPrzedmiotu" value="@przedmiot.ID_Przedmiotu" />
-                    <button type="submit">Przypisz nauczyciela</button>
+                        <button type="submit" class="btn">Przypisz nauczyciela</button>
                 </form>
                 <form action="/Przedmioty/Update" method="get" style="display: inline;">
                     <input type="hidden" name="id" value="@przedmiot.ID_Przedmiotu" />
-                    <button type="submit">Edytuj</button>
+                        <button type="submit" class="btn">Edytuj</button>
                 </form>
                 <form action="/Przedmioty/Delete" method="post" style="display: inline;">
                     <input type="hidden" name="id" value="@przedmiot.ID_Przedmiotu" />
-                    <button type="submit">Usuń</button>
+                    <button type="submit" class="btn-delete">Usuń</button>
                 </form>
             </td>
         </tr>
     }
     </tbody>
 </table>
-<form action="/Przedmioty/Create" method="get">
-    <button type="submit">Dodaj nowy przedmiot</button>
-</form>

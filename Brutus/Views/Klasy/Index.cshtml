@@ -2,6 +2,9 @@
 
 <h1>Lista klas</h1>
 
+<form action="/Klasy/Create" method="get">
+    <button type="submit" class="btn">Dodaj nową klasę</button>
+</form>
 <table>
     <thead>
         <tr>
@@ -27,25 +30,22 @@
                 <td>
                     <form action="/Klasy/SetWychowawca" method="get" style="display: inline;">
                         <input type="hidden" name="idKlasy" value="@klasa.ID_Klasy" />
-                        <button type="submit">Przypisz wychowawcę</button>
+                        <button type="submit" class="btn">Przypisz wychowawcę</button>
                     </form>
                     <form action="/Klasy/PrzedmiotyKlasy" method="get" style="display: inline;">
                         <input type="hidden" name="idKlasy" value="@klasa.ID_Klasy" />
-                        <button type="submit">Przedmioty klasy</button>
+                        <button type="submit" class="btn">Przedmioty klasy</button>
                     </form>
                     <form action="/Klasy/Update" method="get" style="display: inline;">
                         <input type="hidden" name="idKlasy" value="@klasa.ID_Klasy" />
-                        <button type="submit">Edytuj</button>
+                        <button type="submit" class="btn">Edytuj</button>
                     </form>
                     <form action="/Klasy/Delete" method="post" style="display: inline;">
                         <input type="hidden" name="idKlasy" value="@klasa.ID_Klasy" />
-                        <button type="submit">Usuń</button>
+                        <button type="submit" class="btn-delete">Usuń</button>
                     </form>
                 </td>
             </tr>
         }
     </tbody>
 </table>
-<form action="/Klasy/Create" method="get">
-    <button type="submit">Dodaj nową klasę</button>
-</form>

@@ -1,4 +1,5 @@
 ﻿using Brutus.Data;
+using Brutus.Models;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -14,7 +15,8 @@ namespace Brutus.Controllers
         }
         public IActionResult Index()
         {
-            return View();
+            List<Wiadomosc> listaWiadomosci = _context.Wiadomosci.ToList();
+            return View(listaWiadomosci);
         }
         public IActionResult Wyslij()
         {

@@ -19,10 +19,10 @@
                 <td>@Html.DisplayFor(modelItem => test.CzasTrwania)</td>
                 <td>@Html.DisplayFor(modelItem => test.LiczbaZadan)</td>
                 <td>
-                    <a href="@Url.Action("Details", "Testy", new { idTestu = test.ID_Testu })">Podgląd Zadań</a>
+                    <a href="@Url.Action("Details", "Testy", new { idTestu = test.ID_Testu })" class="link">Podgląd Zadań</a>
                     <form asp-action="RedirectToAddQuestions" asp-controller="Testy" method="get">
                         <input type="hidden" name="id" value="@test.ID_Testu" />
-                        <input type="submit" value="Dodaj Pytania" />
+                        <input type="submit" class="btn"value="Dodaj Pytania" />
                     </form>
                 </td>
             </tr>
@@ -30,4 +30,4 @@
     </tbody>
 </table>
 
-<a href="@Url.Action("Create", "Testy")">Utwórz Nowy Test</a>
+<a href="@Url.Action("Create", "Testy")" class="link">Utwórz Nowy Test</a>
