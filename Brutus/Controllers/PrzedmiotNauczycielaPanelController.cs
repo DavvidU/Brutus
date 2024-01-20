@@ -60,7 +60,7 @@ namespace Brutus.Controllers
             List<Uczen> uczniowie = _context.Uczniowie.Include(u => u.Konto).Where(u => u.Klasa != null &&
                                         u.Klasa.ID_Klasy == klasa.ID_Klasy).ToList();
 
-            uczniowie = sortowanieUczniow.SortujUczniow(uczniowie, _context);
+            uczniowie = sortowanieUczniow.SortujUczniow(uczniowie, _context, idPrzedmiotu);
 
             // Znajdz konta tych uczniow
 
@@ -76,7 +76,7 @@ namespace Brutus.Controllers
 
             ViewBag.IDPrzedmiotu = idPrzedmiotu;
 
-            return View(kontaUczniow);
+            return View("WylistujUczniow" , kontaUczniow);
         }
         public IActionResult PrzegladajUczniaWPrzedmiocie()
         {
@@ -102,7 +102,8 @@ namespace Brutus.Controllers
                     break;
             }
 
-            return RedirectToAction("WylistujUczniow", new { idPrzedmiotu = idPrzedmiotu });
+            return WylistujUczniow(idPrzedmiotu);
+            //return RedirectToAction("WylistujUczniow", new { idPrzedmiotu = idPrzedmiotu });
         }
         
         private bool CzyUdzielicDostep(int idPrzedmiotu, int idNauczyciela)

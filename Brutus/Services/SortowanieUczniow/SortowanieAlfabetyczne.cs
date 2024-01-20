@@ -6,7 +6,7 @@ namespace Brutus.Services.SortowanieUczniow
 {
     public class SortowanieAlfabetyczne : ISortowanieUczniow
     {
-        public List<Uczen> SortujUczniow(List<Uczen> uczniowieDoPosortowania, BrutusContext _context)
+        public List<Uczen> SortujUczniow(List<Uczen> uczniowieDoPosortowania, BrutusContext _context, int idPrzedmiotu)
         {
             List<Uczen> posortowaniUczniowie = new();
 
