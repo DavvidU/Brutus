@@ -23,16 +23,26 @@ namespace Brutus.Controllers
             int idNauczyciela = IdTranslator.TranslateToBusinessId(userId, _context);
             if (idNauczyciela == -1) { return NotFound(); }
 
-            if(!CzyUdzielicDostep(idPrzedmiotu, idUcznia, idNauczyciela))
+            Uczen przegladanyUczen = _context.Uczniowie.Include(u => u.Klasa).FirstOrDefault(u => u.ID_Ucznia == idUcznia);
+            if (przegladanyUczen == null)
+                return NotFound();
+
+            if (!CzyUdzielicDostep(idPrzedmiotu, przegladanyUczen, idNauczyciela))
                 return RedirectToAction("AccesDenied", "Home");
 
+            Konto kontoPrzegladanegoUcznia = _context.Konta.FirstOrDefault(k => k.ID_Konta == przegladanyUczen.ID_Ucznia);
+
+            return View(kontoPrzegladanegoUcznia);
+        }
+        public IActionResult GenerujZestawienie() 
+        { 
             return View();
         }
 
-        private bool CzyUdzielicDostep(int idPrzedmiotu, int idUcznia, int idNauczyciela)
+        private bool CzyUdzielicDostep(int idPrzedmiotu, Uczen rzadanyUczen, int idNauczyciela)
         {
             if (!CzyUdzielicDostepDoPrzedmiotu(idPrzedmiotu, idNauczyciela) ||
-                !CzyUdzielicDostepDoUcznia(idUcznia, idPrzedmiotu))
+                !CzyUdzielicDostepDoUcznia(rzadanyUczen, idPrzedmiotu))
                 return false;
             else
                 return true;
@@ -51,16 +61,14 @@ namespace Brutus.Controllers
             else
                 return true;
         }
-        private bool CzyUdzielicDostepDoUcznia(int idUcznia, int idPrzedmiotu)
+        private bool CzyUdzielicDostepDoUcznia(Uczen rzadanyUczen, int idPrzedmiotu)
         {
             /* 
              * Czy rzadany uczen nalezy do klasy zapisanej na rzadany przedmiot
             *  (Wywolywane po weryfikacji dostepu do rzadanego przedmiotu)
             */
 
-            Uczen rzadanyUczen = _context.Uczniowie.Include(u => u.Klasa).FirstOrDefault(u => u.ID_Ucznia == idUcznia);
-
-            if (rzadanyUczen == null || rzadanyUczen.Klasa == null)
+            if (rzadanyUczen.Klasa == null)
                 return false;
 
             // Znajdz klase zapisana na rzadany przedmiot
