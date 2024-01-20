@@ -1,0 +1,39 @@
+﻿@model List<Brutus.Models.Konto>
+
+<div class="form-container">
+    <form action="@Url.Action("ZmienSposobSortowaniaUczniow")" method="get">
+    <input type="hidden" name="idPrzedmiotu" value="@ViewBag.IdPrzedmiotu" />
+    <input type="hidden" name="sposobSortowania" value="Alfabetycznie" />
+    <input type="submit" class="btn" value="Posortuj alfabetycznie" />
+</form>
+
+<form action="@Url.Action("ZmienSposobSortowaniaUczniow")" method="get">
+    <input type="hidden" name="idPrzedmiotu" value="@ViewBag.IdPrzedmiotu" />
+    <input type="hidden" name="sposobSortowania" value="Oceny" />
+    <input type="submit" class="btn" value="Posortuj względem ocen" />
+</form>
+
+</div>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Imię</th>
+            <th>Nazwisko</th>
+            <th>Akcje</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Konto kontoUcznia in Model)
+        {
+            <tr>
+                <td>@kontoUcznia.ID_Konta</td>
+                <td>@kontoUcznia.Imie</td>
+                <td>@kontoUcznia.Nazwisko</td>
+                <td>
+                    <a href="/sciezka/Edytuj/@kontoUcznia.ID_Konta" class="link">Przeglądaj ucznia</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

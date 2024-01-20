@@ -22,10 +22,9 @@
                 <td>@przedmiot.ID_Przedmiotu</td>
                 <td>@przedmiot.Nazwa</td>
                 <td>
-                    <form action="/Przedmioty/UczniowieNaPrzedmiocie" method="get" style="display: inline;">
+                    <form action="/PrzedmiotNauczycielaPanel" method="get" style="display: inline;">
                         <input type="hidden" name="idPrzedmiotu" value="@przedmiot.ID_Przedmiotu" />
-                        <input type="hidden" name="idNauczyciela" value="@Model.KontoNauczyciela.ID_Konta" />
-                        <button type="submit" class="btn">Wyświetl uczniów na przedmiocie</button>
+                        <button type="submit" class="btn">Przejdź do przedmiotu</button>
                     </form>
                 </td>
             </tr>

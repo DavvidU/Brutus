@@ -214,3 +214,6 @@ input[type=submit] {
         outline: none;
         box-shadow: 0 0 0 0.2rem rgba(75, 108, 183, 0.5);
     }
+.form-container {
+    display: flex;
+}
