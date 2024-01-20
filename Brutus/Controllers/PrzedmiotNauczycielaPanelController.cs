@@ -78,14 +78,17 @@ namespace Brutus.Controllers
 
             return View("WylistujUczniow" , kontaUczniow);
         }
-        public IActionResult PrzegladajUczniaWPrzedmiocie()
+        public IActionResult PrzegladajUczniaWPrzedmiocie(int idPrzedmiotu, int idUcznia)
         {
             string userId = User.Identity.GetUserId();
 
             int idNauczyciela = IdTranslator.TranslateToBusinessId(userId, _context);
             if (idNauczyciela == -1) { return NotFound(); }
 
-            return View();
+            if (!CzyUdzielicDostep(idPrzedmiotu, idNauczyciela))
+                return RedirectToAction("AccesDenied", "Home");
+
+            return RedirectToAction("Index", "PodgladUczniaWPrzedmiocie", new { idPrzedmiotu = idPrzedmiotu, idUcznia = idUcznia }) ;
         }
         public IActionResult ZmienSposobSortowaniaUczniow(int idPrzedmiotu, string sposobSortowania)
         {
@@ -108,6 +111,8 @@ namespace Brutus.Controllers
         
         private bool CzyUdzielicDostep(int idPrzedmiotu, int idNauczyciela)
         {
+            // Czy nauczyciel prowadzi rzadany przedmiot
+
             NauczycielPrzedmiot powiazanieNauczycielPrzedmiot = _context.NauczycielePrzedmioty.
                 Include(np => np.Nauczyciel).First(np => np.Przedmiot != null && np.Nauczyciel != null &&
                 np.Przedmiot.ID_Przedmiotu == idPrzedmiotu);

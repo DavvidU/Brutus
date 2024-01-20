@@ -31,7 +31,12 @@
                 <td>@kontoUcznia.Imie</td>
                 <td>@kontoUcznia.Nazwisko</td>
                 <td>
-                    <a href="/sciezka/Edytuj/@kontoUcznia.ID_Konta" class="link">Przeglądaj ucznia</a>
+                    <form action="/PrzedmiotNauczycielaPanel/PrzegladajUczniaWPrzedmiocie" method="get">
+                        <input type="hidden" name="idPrzedmiotu" value="@ViewBag.IdPrzedmiotu" />
+                        <input type="hidden" name="idUcznia" value="@kontoUcznia.ID_Konta" />
+                        <button type="submit" class="btn">Przeglądaj ucznia</button>
+                    </form>
+
                 </td>
             </tr>
         }
