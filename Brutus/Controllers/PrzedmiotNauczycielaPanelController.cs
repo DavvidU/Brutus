@@ -51,7 +51,7 @@ namespace Brutus.Controllers
             /* Znajdz klase chodzaca na ten przedmiot */
             
             KlasaPrzedmiot powiazanieKlasaPrzedmiot = _context.KlasyPrzedmioty.Include(kp => kp.Klasa).
-                First(kp => kp.Przedmiot != null && kp.Przedmiot.ID_Przedmiotu == idPrzedmiotu);
+                FirstOrDefault(kp => kp.Przedmiot != null && kp.Przedmiot.ID_Przedmiotu == idPrzedmiotu);
 
             Klasa klasa = powiazanieKlasaPrzedmiot.Klasa;
 
@@ -68,7 +68,7 @@ namespace Brutus.Controllers
 
             foreach (Uczen uczen in uczniowie)
             {
-                Konto kontoUcznia = _context.Konta.First(k => k.ID_Konta == uczen.ID_Ucznia);
+                Konto kontoUcznia = _context.Konta.FirstOrDefault(k => k.ID_Konta == uczen.ID_Ucznia);
 
                 if(kontoUcznia != null)
                     kontaUczniow.Add(kontoUcznia);
@@ -114,7 +114,7 @@ namespace Brutus.Controllers
             // Czy nauczyciel prowadzi rzadany przedmiot
 
             NauczycielPrzedmiot powiazanieNauczycielPrzedmiot = _context.NauczycielePrzedmioty.
-                Include(np => np.Nauczyciel).First(np => np.Przedmiot != null && np.Nauczyciel != null &&
+                Include(np => np.Nauczyciel).FirstOrDefault(np => np.Przedmiot != null && np.Nauczyciel != null &&
                 np.Przedmiot.ID_Przedmiotu == idPrzedmiotu);
 
             if (powiazanieNauczycielPrzedmiot == null ||

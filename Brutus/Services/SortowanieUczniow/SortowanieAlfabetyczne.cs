@@ -14,7 +14,7 @@ namespace Brutus.Services.SortowanieUczniow
 
             foreach (Uczen uczen in uczniowieDoPosortowania)
             {
-                Konto kontoUcznia = _context.Konta.First(k => k.ID_Konta == uczen.ID_Ucznia);
+                Konto kontoUcznia = _context.Konta.FirstOrDefault(k => k.ID_Konta == uczen.ID_Ucznia);
 
                 if (kontoUcznia != null)
                     kontaUczniow.Add(kontoUcznia);
@@ -27,7 +27,7 @@ namespace Brutus.Services.SortowanieUczniow
 
             foreach (Konto kontoUcznia in kontaUczniow)
             {
-                Uczen uczen = _context.Uczniowie.First(u => u.ID_Ucznia == kontoUcznia.ID_Konta);
+                Uczen uczen = _context.Uczniowie.FirstOrDefault(u => u.ID_Ucznia == kontoUcznia.ID_Konta);
 
                 if (uczen != null)
                     posortowaniUczniowie.Add(uczen);

@@ -42,7 +42,7 @@ namespace Brutus.Controllers
             // Czy nauczyciel prowadzi rzadany przedmiot
 
             NauczycielPrzedmiot powiazanieNauczycielPrzedmiot = _context.NauczycielePrzedmioty.
-                Include(np => np.Nauczyciel).First(np => np.Przedmiot != null && np.Nauczyciel != null &&
+                Include(np => np.Nauczyciel).FirstOrDefault(np => np.Przedmiot != null && np.Nauczyciel != null &&
                 np.Przedmiot.ID_Przedmiotu == idPrzedmiotu);
 
             if (powiazanieNauczycielPrzedmiot == null ||
@@ -66,7 +66,7 @@ namespace Brutus.Controllers
             // Znajdz klase zapisana na rzadany przedmiot
 
             KlasaPrzedmiot powiazanieRzadanyPrzedmiotKlasa = _context.KlasyPrzedmioty.
-                Include(kp => kp.Klasa).First(kp => kp.Przedmiot != null && kp.Klasa != null &&
+                Include(kp => kp.Klasa).FirstOrDefault(kp => kp.Przedmiot != null && kp.Klasa != null &&
                 kp.Przedmiot.ID_Przedmiotu == idPrzedmiotu);
 
             if (powiazanieRzadanyPrzedmiotKlasa == null)
