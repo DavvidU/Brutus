@@ -1,0 +1,29 @@
+﻿@model Brutus.Models.Konto
+
+<h1>Podgląd ucznia</h1>
+<h2>@Model.ID_Konta @Model.Imie @Model.Nazwisko</h2>
+<h2>Nazwa przedmiotu?</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th colspan="2">Akcje</th>
+        </tr>
+    </thead>
+    <tbody>
+            <tr>
+                <td>
+                <form action="/PrzedmiotNauczycielaPanel" method="get" style="display: inline;">
+                    <input type="hidden" name="idPrzedmiotu" value="@Model.Nazwisko" /><!-- To MOCKUP -->
+                    <button type="submit" class="btn">Dodaj ocenę</button>
+                </form>
+                </td>
+                <td>
+                    <form action="/PrzedmiotNauczycielaPanel" method="get" style="display: inline;">
+                        <input type="hidden" name="idPrzedmiotu" value="@Model.Imie" /><!-- To MOCKUP -->
+                        <button type="submit" class="btn">Generuj zestawienie</button>
+                    </form>
+                </td>
+            </tr>
+    </tbody>
+</table>

@@ -1,0 +1,8 @@
+﻿@model Brutus.Models.Przedmiot
+
+<h2>@Model.Nazwa</h2>
+
+<form action="/PrzedmiotNauczycielaPanel/WylistujUczniow" method="get" style="display: inline;">
+    <input type="hidden" name="idPrzedmiotu" value="@Model.ID_Przedmiotu" />
+    <button type="submit" class="btn">Wylistuj uczniów</button>
+</form>

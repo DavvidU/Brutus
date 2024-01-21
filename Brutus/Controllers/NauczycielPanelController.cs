@@ -1,8 +1,11 @@
 ﻿using Brutus.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Brutus.Controllers
 {
+    [Authorize(Roles = "Nauczyciel")]
     public class NauczycielPanelController : Controller
     {
         private BrutusContext _context;

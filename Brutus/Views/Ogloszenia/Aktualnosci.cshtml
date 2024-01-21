@@ -1,6 +1,10 @@
 ﻿
 @model List<Brutus.Models.Ogloszenie>
 
+@{
+    string autorOgloszenia; 
+}
+
 <h1>Aktualności</h1>
 
 @if (Model != null && Model.Any())
@@ -20,7 +24,16 @@
         {
             <tr>
                 <td>@ogloszenie.ID_Ogloszenia</td>
-                <td>@ogloszenie.Nauczyciel</td>
+                <td>
+                    @if (ogloszenie.Nauczyciel != null)
+                    {
+                        autorOgloszenia = "";
+                        autorOgloszenia += ogloszenie.Nauczyciel.Konto.Imie + " ";
+                        autorOgloszenia += ogloszenie.Nauczyciel.Konto.Nazwisko;
+                    }
+                    else { autorOgloszenia = "-"; }
+                    @autorOgloszenia
+                </td>
                 <td class="content-column">@ogloszenie.Tresc</td>
 
             </tr>

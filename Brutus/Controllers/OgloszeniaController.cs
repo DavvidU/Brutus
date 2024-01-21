@@ -1,5 +1,8 @@
 ﻿using Brutus.Data;
 using Brutus.Models;
+using Brutus.Services;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,10 +29,17 @@ namespace Brutus.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Nauczyciel")]
         public IActionResult Create(Ogloszenie ogloszenie)
         {
+            string userId = User.Identity.GetUserId();
+
+            int idNauczyciela = IdTranslator.TranslateToBusinessId(userId, _context);
+            if (idNauczyciela == -1) { return NotFound(); }
+
             if (ModelState.IsValid)
             {
+                ogloszenie.Nauczyciel = _context.Nauczyciele.FirstOrDefault(n => n.ID_Nauczyciela == idNauczyciela);
                 _context.Ogloszenia.Add(ogloszenie);;
                 _context.SaveChanges();
                 return RedirectToAction("Aktualnosci");
@@ -39,14 +49,23 @@ namespace Brutus.Controllers
 
         public IActionResult Aktualnosci()
         {
-            var ogloszenia = _context.Ogloszenia.ToList();
+            var ogloszenia = _context.Ogloszenia.Include(o => o.Nauczyciel).ThenInclude(n => n.Konto).ToList();
+            
             return View(ogloszenia);
         }
 
+        [Authorize(Roles = "Nauczyciel")]
         public IActionResult AktualnosciEdit()
         {
-            var ogloszenia = _context.Ogloszenia.ToList();
-            return View(ogloszenia);
+            string userId = User.Identity.GetUserId();
+
+            int idNauczyciela = IdTranslator.TranslateToBusinessId(userId, _context);
+            if (idNauczyciela == -1) { return NotFound(); }
+
+            var ogloszeniaNauczyciela = _context.Ogloszenia.Where(o => o.Nauczyciel.ID_Nauczyciela == idNauczyciela);
+            List<Ogloszenie> listaOgloszenNauczyciela = ogloszeniaNauczyciela.ToList();
+
+            return View(listaOgloszenNauczyciela);
         }
 
         [HttpPost]

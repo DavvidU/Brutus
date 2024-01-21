@@ -319,7 +319,7 @@ namespace Brutus.Controllers
                 _context.SaveChanges();
             }
 
-            // Przekierowanie z powrotem do odpowiedniego widoku (np. szczegółów klasy)
+            
             return RedirectToAction("PrzedmiotyKlasy", new { idKlasy = model.Klasa.ID_Klasy });
         }
     }
