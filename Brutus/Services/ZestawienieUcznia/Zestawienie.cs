@@ -10,8 +10,8 @@ namespace Brutus.Services.ZestawienieUcznia
         private string nazwiskoUcznia;
         private int idPrzedmiotu;
         private string nazwaPrzedmiotu;
-        private List<string> sformatowanaListaOcen;
-        private string dodatkowaTresc;
+        private List<Ocena> listaOcen;
+        private List<string> dodatkoweInformacje;
 
         public string GetDaneUcznia()
         {
@@ -23,9 +23,20 @@ namespace Brutus.Services.ZestawienieUcznia
             string danePrzedmiotu = idPrzedmiotu.ToString() + " " + nazwaPrzedmiotu; 
             return danePrzedmiotu;
         }
-        public string GetSformatowanaListaOcen()
+        public List<string> GetSformatowanaListaOcen()
         {
+            List<string> sformatowanaListaOcen = new List<string>();
+            
+            foreach (Ocena ocena in listaOcen) 
+                sformatowanaListaOcen.Add(ocena.Wartosc.ToString());
 
+            return sformatowanaListaOcen;
         }
+        public List<string> GetDodatkoweInformacje()
+        {
+            dodatkoweInformacje = new List<string>();
+            return dodatkoweInformacje;
+        }
+        public List<Ocena> GetOceny() { return listaOcen; }
     }
 }
