@@ -13,8 +13,9 @@
     <tbody>
             <tr>
                 <td>
-                <form action="/PrzedmiotNauczycielaPanel" method="get" style="display: inline;">
-                    <input type="hidden" name="idPrzedmiotu" value="@Model.Nazwisko" /><!-- To MOCKUP -->
+                <form action="/PodgladUczniaWPrzedmiocie/DodajOcene" method="get" style="display: inline;">
+                    <input type="hidden" name="idPrzedmiotu" value="@ViewBag.IDPrzedmiotu" />
+                    <input type="hidden" name="idUcznia" value="@Model.ID_Konta" />
                     <button type="submit" class="btn">Dodaj ocenę</button>
                 </form>
                 </td>

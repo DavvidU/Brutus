@@ -1,4 +1,5 @@
-﻿using Brutus.Data;
+﻿using Brutus.DTOs;
+using Brutus.Data;
 using Brutus.Models;
 using Brutus.Services;
 using Microsoft.AspNet.Identity;
@@ -32,11 +33,69 @@ namespace Brutus.Controllers
 
             Konto kontoPrzegladanegoUcznia = _context.Konta.FirstOrDefault(k => k.ID_Konta == przegladanyUczen.ID_Ucznia);
 
+            ViewBag.IDPrzedmiotu = idPrzedmiotu;
+
             return View(kontoPrzegladanegoUcznia);
         }
         public IActionResult GenerujZestawienie() 
         { 
             return View();
+        }
+        [HttpGet]
+        public IActionResult DodajOcene(int idPrzedmiotu, int idUcznia)
+        {
+            string userId = User.Identity.GetUserId();
+
+            int idNauczyciela = IdTranslator.TranslateToBusinessId(userId, _context);
+            if (idNauczyciela == -1) { return NotFound(); }
+
+            Uczen uczen = _context.Uczniowie.Include(u => u.Klasa).FirstOrDefault(u => u.ID_Ucznia == idUcznia);
+            if (uczen == null)
+                return NotFound();
+
+            if (!CzyUdzielicDostep(idPrzedmiotu, uczen, idNauczyciela))
+                return RedirectToAction("AccesDenied", "Home");
+
+            Nauczyciel nauczyciel = _context.Nauczyciele.FirstOrDefault(n => n.ID_Nauczyciela == idNauczyciela);
+            if (nauczyciel == null)
+                return NotFound();
+
+            Przedmiot przedmiot = _context.Przedmioty.FirstOrDefault(p => p.ID_Przedmiotu == idPrzedmiotu);
+            if (przedmiot == null)
+                return NotFound();
+
+            var viewModel = new DodawanieOcenyViewModel(uczen, nauczyciel, przedmiot);
+
+            return View(viewModel);
+        }
+        [HttpPost]
+        public IActionResult DodajOcene(DodawanieOcenyViewModel model)
+        {
+            if (model.Uczen != null && model.Nauczyciel != null && model.Przedmiot != null)
+            {
+                Ocena nowaOcena = new Ocena
+                {
+                    Wartosc = model.Wartosc,
+                    Waga = model.Waga,
+                    Komentarz = model.Komentarz,
+                    Uczen = _context.Uczniowie.Find(model.Uczen.ID_Ucznia),
+                    Nauczyciel = _context.Nauczyciele.Find(model.Nauczyciel.ID_Nauczyciela),
+                    Przedmiot = _context.Przedmioty.Find(model.Przedmiot.ID_Przedmiotu),
+                    Data = DateTime.Now
+                };
+
+                _context.Oceny.Add(nowaOcena);
+                _context.SaveChanges();
+
+                return RedirectToAction("Index", new
+                {
+                    idPrzedmiotu = model.Przedmiot.ID_Przedmiotu,
+                    idUcznia = model.Uczen.ID_Ucznia
+                });
+            }
+            else
+                return NotFound();
+            
         }
 
         private bool CzyUdzielicDostep(int idPrzedmiotu, Uczen rzadanyUczen, int idNauczyciela)

@@ -15,26 +15,10 @@ namespace Brutus.Services.SortowanieUczniow
             // Wypelnij slownik uczniami z ocenami z odpowiedniego przedmiotu
             foreach (var uczen in uczniowieDoPosortowania)
             {
-                // pobierz rekordy uczen-ocena dla tego ucznia
-                List<UczenOcena> uczenOcena = _context.UczniowieOceny.Include(uo => uo.Ocena).ThenInclude(p => p.Przedmiot).
-                    Where(uo => uo.Uczen != null && uo.Ocena != null && uo.Uczen.ID_Ucznia == uczen.ID_Ucznia).ToList();
-                // bycmoze bez "&& uo.Ocena != null"
-                // Wydziel wszystkie oceny ucznia
+                // pobierz oceny ucznia z odpowiedniego przedmiotu
 
-                List<Ocena> wszystkieOcenyUcznia = new();
-
-                foreach (var uczenOcenaRekord in uczenOcena)
-                    wszystkieOcenyUcznia.Add(uczenOcenaRekord.Ocena);
-
-                // Pozostaw tylko oceny z odpowiedniego przedmiotu
-
-                List<Ocena> ocenyUczniaZPrzedmiotu = new();
-
-                foreach (var ocenaUcznia in wszystkieOcenyUcznia)
-                {
-                    if (ocenaUcznia.Przedmiot.ID_Przedmiotu == idPrzedmiotu)
-                        ocenyUczniaZPrzedmiotu.Add(ocenaUcznia);
-                }
+                List<Ocena> ocenyUczniaZPrzedmiotu = _context.Oceny.Where(o => o.Uczen != null && o.Przedmiot != null &&
+                    o.Uczen.ID_Ucznia == uczen.ID_Ucznia && o.Przedmiot.ID_Przedmiotu == idPrzedmiotu).ToList();
 
                 uczenOceny.Add(uczen, ocenyUczniaZPrzedmiotu);
             }

@@ -74,7 +74,7 @@ namespace Brutus.Controllers
                     kontaUczniow.Add(kontoUcznia);
             }
 
-            ViewBag.IDPrzedmiotu = idPrzedmiotu;
+            ViewBag.IdPrzedmiotu = idPrzedmiotu;
 
             return View("WylistujUczniow" , kontaUczniow);
         }
