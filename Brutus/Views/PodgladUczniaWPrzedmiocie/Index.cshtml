@@ -20,10 +20,27 @@
                 </form>
                 </td>
                 <td>
-                    <form action="/PrzedmiotNauczycielaPanel" method="get" style="display: inline;">
-                        <input type="hidden" name="idPrzedmiotu" value="@Model.Imie" /><!-- To MOCKUP -->
-                        <button type="submit" class="btn">Generuj zestawienie</button>
-                    </form>
+                <form action="/PodgladUczniaWPrzedmiocie/GenerujZestawienie" method="get" style="display: inline;">
+                    <input type="hidden" name="idPrzedmiotu" value="@ViewBag.IDPrzedmiotu" />
+                    <input type="hidden" name="idUcznia" value="@Model.ID_Konta" />
+
+                    <div>
+                        <input type="checkbox" name="czyZawieraKomentarze" value="true" />
+                        <label for="czyZawieraKomentarze">Komentarze</label>
+                    </div>
+
+                    <div>
+                        <input type="checkbox" name="czyZawieraWagi" value="true" />
+                        <label for="czyZawieraWagi">Wagi</label>
+                    </div>
+
+                    <div>
+                        <input type="checkbox" name="czyPorownanieNaTleKlasy" value="true" />
+                        <label for="czyPorownanieNaTleKlasy">Zestawienie na tle klasy</label>
+                    </div>
+
+                    <button type="submit" class="btn">Generuj zestawienie</button>
+                </form>
                 </td>
             </tr>
     </tbody>

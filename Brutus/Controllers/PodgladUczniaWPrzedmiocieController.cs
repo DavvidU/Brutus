@@ -37,8 +37,23 @@ namespace Brutus.Controllers
 
             return View(kontoPrzegladanegoUcznia);
         }
-        public IActionResult GenerujZestawienie() 
-        { 
+        public IActionResult GenerujZestawienie(int idPrzedmiotu, int idUcznia, bool czyZawieraKomentarze, 
+            bool czyZawieraWagi, bool czyPorownanieNaTleKlasy) 
+        {
+            string userId = User.Identity.GetUserId(); // Pobierz torzsamosc nauczyciela generujacego zestawienie
+
+            int idNauczyciela = IdTranslator.TranslateToBusinessId(userId, _context);
+            if (idNauczyciela == -1) { return NotFound(); } // Pobierz biznesowe ID nauczyciela
+
+            Uczen uczen = _context.Uczniowie.Include(u => u.Klasa).FirstOrDefault(u => u.ID_Ucznia == idUcznia);
+            if (uczen == null) // Znajdz ucznia dla ktorego ma byc wygenerowane zestawienie
+                return NotFound();
+
+            if (!CzyUdzielicDostep(idPrzedmiotu, uczen, idNauczyciela)) // Czy nauczyciel jest uprawniony do akcji
+                return RedirectToAction("AccesDenied", "Home");
+
+
+
             return View();
         }
         [HttpGet]
