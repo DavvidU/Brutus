@@ -59,20 +59,7 @@ namespace Brutus.Controllers
                     throw new ArgumentException("Nieznany typ konta");
             }
 
-            
             Konto konto = new Konto();
-            /* Konto - biznesowa logika 
-           
-            konto.Imie = Imie;
-            konto.Nazwisko = Nazwisko;
-            konto.Email = Email;
-            konto.SkrotHasla = SkrotHasla;
-            konto.NrTelefonu = NrTelefonu;
-            konto.ApplicationUserId = user.Id;
-            string typTworzonegoKonta = TypKonta;*/
-            int idTworzonegoKonta;
-
-
             ApplicationUser user = builder.SetImie(Imie)
            .SetNazwisko(Nazwisko)
            .SetEmail(Email)
@@ -89,7 +76,6 @@ namespace Brutus.Controllers
 
                 if (ModelState.IsValid)
                 {                    
-                    idTworzonegoKonta = _context.Konta.OrderByDescending(x => x.ID_Konta).FirstOrDefault().ID_Konta;
                     return RedirectToAction("Index");
                 }
             }

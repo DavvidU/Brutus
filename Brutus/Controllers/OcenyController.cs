@@ -1,5 +1,6 @@
 using Brutus.Data;
 using Brutus.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,6 +23,7 @@ namespace Brutus.Controllers
             return View();
         }
         [HttpPost]
+        [Authorize(Roles = "Nauczyciel")]
         public IActionResult Create(Ocena ocena)
         {
 

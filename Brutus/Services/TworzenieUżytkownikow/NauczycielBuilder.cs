@@ -48,7 +48,7 @@ public class NauczycielBuilder : UserBuilder
     public void Save(ApplicationUser user, Microsoft.AspNetCore.Identity.UserManager<ApplicationUser> userManager)
     {
 
-        konto.ApplicationUserId = applicationUser.Id;
+        konto.ApplicationUserId = user.Id;
         _context.Konta.Add(konto);
         _context.SaveChanges();
 
