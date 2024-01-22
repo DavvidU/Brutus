@@ -13,5 +13,7 @@ namespace Brutus.Services.ZestawienieUcznia
         public new List<string> GetSformatowanaListaOcen() { return zestawienie.GetSformatowanaListaOcen(); }
         public new List<string> GetDodatkoweInformacje() { return zestawienie.GetDodatkoweInformacje(); }
         public new List<Ocena> GetOceny() { return zestawienie.GetOceny(); }
+        public new int GetIdUcznia() { return zestawienie.GetIdUcznia(); }
+
     }
 }

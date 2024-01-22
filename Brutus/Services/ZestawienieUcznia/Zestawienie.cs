@@ -38,5 +38,6 @@ namespace Brutus.Services.ZestawienieUcznia
             return dodatkoweInformacje;
         }
         public List<Ocena> GetOceny() { return listaOcen; }
+        public int GetIdUcznia() { return idUcznia; }
     }
 }

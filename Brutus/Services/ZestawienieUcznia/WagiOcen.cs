@@ -13,6 +13,7 @@ namespace Brutus.Services.ZestawienieUcznia
 
             List<Ocena> listaOcen = GetOceny();
 
+            // Dodaj wagi ocen
             for (int i = 0; i < sformatowanaListaOcen.Count; ++i)
                 sformatowanaListaOcen[i] = sformatowanaListaOcen[i] + " Waga: " + listaOcen[i].Waga.ToString();
 
@@ -20,5 +21,7 @@ namespace Brutus.Services.ZestawienieUcznia
         }
         public new List<string> GetDodatkoweInformacje() { return base.GetDodatkoweInformacje(); }
         public new List<Ocena> GetOceny() { return base.GetOceny(); }
+        public new int GetIdUcznia() { return base.GetIdUcznia(); }
+
     }
 }
