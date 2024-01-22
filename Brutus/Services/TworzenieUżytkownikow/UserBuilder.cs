@@ -1,6 +1,6 @@
 ﻿using Brutus.Models;
 using Microsoft.AspNet.Identity;
-
+//okresla metody ktore powinien implementowac kazdy builder uzytkownika
 public interface UserBuilder
 {
     UserBuilder SetImie(string imie);

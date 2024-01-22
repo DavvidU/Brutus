@@ -61,12 +61,16 @@ namespace Brutus.Controllers
         [Authorize(Roles = "Nauczyciel")]
         public IActionResult AktualnosciEdit()
         {
+           // pobranie identyfikatora użytkownika
             string userId = User.Identity.GetUserId();
 
+            // utworzenie konkretnego polecenia do przetłumaczenia identyfikatora uzytkownika na identyfikator biznesowy
             var command = new TranslateIdCommand(userId, _context);
+            // utworzenie obiektu Invoker który bedzie wywolywac polecenie
             var invoker = new Invoker();
+            // przekazanie komendy do wywoływacza
             invoker.SetCommand(command);
-
+            // wywolanie komendy i otrzymanie identyfikatora biznesowego nauczyciela
             int idNauczyciela = invoker.Invoke();
 
             if (idNauczyciela == -1) { return NotFound(); }

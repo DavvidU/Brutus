@@ -13,8 +13,11 @@ public class TranslateIdCommand : ICommand
         _context = context;
         _userId = userId;
     }
+    //realizacja metody z interfejsu ICommand.
+    // wywołuje metodę pomocniczą TranslateToBusinessI  w celu przetłumaczenia identyfikatora użytkownika.
     public int ProvideID()
     {
+        // wywołanie metody pomocniczej IdTranslator do uzyskania identyfikatora biznesowego
         return IdTranslator.TranslateToBusinessId(_userId, _context);
     }
 }
