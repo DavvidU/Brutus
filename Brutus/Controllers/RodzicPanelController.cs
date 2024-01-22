@@ -21,7 +21,7 @@ namespace Brutus.Controllers
         [HttpGet]
         public IActionResult Uczniowie(int id)
         {
-           // Nie wiem co robie
+           
            var daneZUczniaIDaneZRodzica = (from konto in _context.Konta
                join uczen in _context.Uczniowie 
                    on konto.ID_Konta equals uczen.Konto.ID_Konta into xd 

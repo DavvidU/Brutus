@@ -41,7 +41,7 @@ namespace Brutus.Controllers
         }
         public IActionResult WylistujUczniow(int idPrzedmiotu)
         {
-            /* TO SIE ZMIENI JAK ADAM UZYJE COMMAND */
+            /* Znajdz uczniow chodzacych na przedmiot i wylistuj ich za pomoca strategii sortowania */
 
             string userId = User.Identity.GetUserId();
 
@@ -71,7 +71,7 @@ namespace Brutus.Controllers
             List<Uczen> uczniowie = _context.Uczniowie.Include(u => u.Konto).Where(u => u.Klasa != null &&
                                         u.Klasa.ID_Klasy == klasa.ID_Klasy).ToList();
 
-            uczniowie = sortowanieUczniow.SortujUczniow(uczniowie, _context, idPrzedmiotu);
+            uczniowie = sortowanieUczniow.SortujUczniow(uczniowie, _context, idPrzedmiotu); // Uzycie strategii
 
             // Znajdz konta tych uczniow
 
