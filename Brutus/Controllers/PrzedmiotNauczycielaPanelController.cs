@@ -1,11 +1,11 @@
 ﻿using Brutus.Models;
 using Brutus.Data;
-using Brutus.Services;
 using Brutus.Services.SortowanieUczniow;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Brutus.Services.Command;
 
 namespace Brutus.Controllers
 {
@@ -23,7 +23,11 @@ namespace Brutus.Controllers
         {
             string userId = User.Identity.GetUserId();
 
-            int idNauczyciela = IdTranslator.TranslateToBusinessId(userId, _context);
+            var command = new TranslateIdCommand(userId, _context);
+            var invoker = new Invoker();
+            invoker.SetCommand(command);
+
+            int idNauczyciela = invoker.Invoke();
             if (idNauczyciela == -1) { return NotFound(); }
 
             Przedmiot? przedmiot = _context.Przedmioty.FirstOrDefault(p => p.ID_Przedmiotu == idPrzedmiotu);
@@ -41,7 +45,12 @@ namespace Brutus.Controllers
 
             string userId = User.Identity.GetUserId();
 
-            int idNauczyciela = IdTranslator.TranslateToBusinessId(userId, _context);
+            var command = new TranslateIdCommand(userId, _context);
+            var invoker = new Invoker();
+            invoker.SetCommand(command);
+
+            int idNauczyciela = invoker.Invoke();
+
             if (idNauczyciela == -1) { return NotFound(); }
 
             Przedmiot? przedmiot = _context.Przedmioty.FirstOrDefault(p => p.ID_Przedmiotu == idPrzedmiotu);
@@ -84,7 +93,12 @@ namespace Brutus.Controllers
         {
             string userId = User.Identity.GetUserId();
 
-            int idNauczyciela = IdTranslator.TranslateToBusinessId(userId, _context);
+            var command = new TranslateIdCommand(userId, _context);
+            var invoker = new Invoker();
+            invoker.SetCommand(command);
+
+            int idNauczyciela = invoker.Invoke();
+
             if (idNauczyciela == -1) { return NotFound(); }
 
             if (!CzyUdzielicDostep(idPrzedmiotu, idNauczyciela))

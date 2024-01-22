@@ -1,7 +1,7 @@
 ﻿using Brutus.DTOs;
 using Brutus.Data;
 using Brutus.Models;
-using Brutus.Services;
+using Brutus.Services.Command;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -22,7 +22,11 @@ namespace Brutus.Controllers
         {
             string userId = User.Identity.GetUserId();
 
-            int idNauczyciela = IdTranslator.TranslateToBusinessId(userId, _context);
+            var command = new TranslateIdCommand(userId, _context);
+            var invoker = new Invoker();
+            invoker.SetCommand(command);
+
+            int idNauczyciela = invoker.Invoke();
             if (idNauczyciela == -1) { return NotFound(); }
 
             Uczen przegladanyUczen = _context.Uczniowie.Include(u => u.Klasa).FirstOrDefault(u => u.ID_Ucznia == idUcznia);
