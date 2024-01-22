@@ -6,6 +6,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Brutus.Services.Zestawienie;
 
 namespace Brutus.Controllers
 {
@@ -52,9 +53,32 @@ namespace Brutus.Controllers
             if (!CzyUdzielicDostep(idPrzedmiotu, uczen, idNauczyciela)) // Czy nauczyciel jest uprawniony do akcji
                 return RedirectToAction("AccesDenied", "Home");
 
+            /* Obiekty ktorych dotyczy zestawienie */
 
+            Konto kontoUcznia = _context.Konta.FirstOrDefault(k => k.ID_Konta == idUcznia);
+            if (kontoUcznia == null) { return NotFound(); }
 
-            return View();
+            Przedmiot przedmiot = _context.Przedmioty.FirstOrDefault(p => p.ID_Przedmiotu == idPrzedmiotu);
+            if (przedmiot == null) { return NotFound(); }
+
+            List<Ocena> ocenyUcznia = _context.Oceny.Where(o => o.Uczen != null && 
+                                                            o.Uczen.ID_Ucznia == idUcznia).ToList();
+
+            Zestawienie zestawienie = new ZestawienieUcznia(idUcznia, kontoUcznia.Imie, kontoUcznia.Nazwisko, 
+                                                            idPrzedmiotu, przedmiot.Nazwa, ocenyUcznia);
+
+            /* Dekorowanie zestawienia w rzadane przez nauczyiela informacje */
+
+            if (czyZawieraWagi)
+                zestawienie = new WagiOcen(zestawienie);
+            if (czyZawieraKomentarze)
+                zestawienie = new KomentarzeOcen(zestawienie);
+            if (czyPorownanieNaTleKlasy)
+                zestawienie = new TrendRozwojuNaTleKlasy(zestawienie, _context);
+
+            //List<String> hwdgp = zestawienie.GetSformatowanaListaOcen();
+
+            return View(zestawienie);
         }
         [HttpGet]
         public IActionResult DodajOcene(int idPrzedmiotu, int idUcznia)

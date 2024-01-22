@@ -1,1 +1,40 @@
-﻿<p>Jakie zestawienie wariacie?</p>
+﻿@model Brutus.Services.Zestawienie.Zestawienie
+
+<h2>Zestawienie Ucznia</h2>
+
+<div>
+    <h3>Dane Ucznia: @Model.GetDaneUcznia()</h3>
+    <h3>Dane Przedmiotu: @Model.GetDanePrzedmiotu()</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Oceny</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var ocena in Model.GetSformatowanaListaOcen())
+            {
+                <tr>
+                    <td>@ocena</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Dodatkowe Informacje:</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var info in Model.GetDodatkoweInformacje())
+            {
+                <tr>
+                    <td>@info</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
