@@ -39,16 +39,7 @@ namespace Brutus.Services.Zestawienie
                 return dodatkoweInformacje;
             }
 
-            // Stosunek trendu ucznia do sredniego trendu klasy
-
-            double? stosunekTrendow = wspolczynnikKierunkowyUcznia / sredniWspResztyKlasy;
-
             // Dodaj trend rozwoju na tle klasy do listy "dodatkoweInformacje"
-
-
-            //string trendRozwojuNaTleKlasy = "Trend rozwoju ucznia: " + wspolczynnikKierunkowyUcznia.ToString() +
-                //". Średni trend reszty klasy: " + sredniWspResztyKlasy.ToString() + ". Uczen rozwija sie w tempie " +
-                //stosunekTrendow.ToString() + " w porównaniu do reszty klasy";
 
             string opisTrenduUcznia;
             string opisTrenduKlasy;

@@ -37,6 +37,8 @@ namespace Brutus.Controllers
         }
         public IActionResult WylistujUczniow(int idPrzedmiotu)
         {
+            /* TO SIE ZMIENI JAK ADAM UZYJE COMMAND */
+
             string userId = User.Identity.GetUserId();
 
             int idNauczyciela = IdTranslator.TranslateToBusinessId(userId, _context);
@@ -106,7 +108,6 @@ namespace Brutus.Controllers
             }
 
             return WylistujUczniow(idPrzedmiotu);
-            //return RedirectToAction("WylistujUczniow", new { idPrzedmiotu = idPrzedmiotu });
         }
         
         private bool CzyUdzielicDostep(int idPrzedmiotu, int idNauczyciela)

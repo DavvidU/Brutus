@@ -76,8 +76,6 @@ namespace Brutus.Controllers
             if (czyPorownanieNaTleKlasy)
                 zestawienie = new TrendRozwojuNaTleKlasy(zestawienie, _context);
 
-            //List<String> hwdgp = zestawienie.GetSformatowanaListaOcen();
-
             return View(zestawienie);
         }
         [HttpGet]
