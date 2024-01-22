@@ -1,7 +1,7 @@
 ﻿using Brutus.Data;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Brutus.Services
+namespace Brutus.Services.Command
 {
     public static class IdTranslator
     {
@@ -9,7 +9,7 @@ namespace Brutus.Services
         {
             Models.Konto userBusinessAccount = _context.Konta.FirstOrDefault(p => p.ApplicationUserId == userId);
 
-            if(userBusinessAccount == null) { return -1; }
+            if (userBusinessAccount == null) { return -1; }
 
             return userBusinessAccount.ID_Konta;
         }

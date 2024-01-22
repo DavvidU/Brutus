@@ -5,8 +5,8 @@ using System.Diagnostics;
 using Brutus.DTOs;
 using Microsoft.AspNetCore.Mvc.Rendering; // do SelectList (wyswietlanie listy nauczycieli)
 using Microsoft.AspNet.Identity;
-using Brutus.Services;
 using Microsoft.AspNetCore.Authorization;
+using Brutus.Services.Command;
 
 namespace Brutus.Controllers
 {
@@ -231,7 +231,12 @@ namespace Brutus.Controllers
         {
             string userId = User.Identity.GetUserId();
 
-            int idNauczyciela = IdTranslator.TranslateToBusinessId(userId, _context);
+            var command = new TranslateIdCommand(userId, _context);
+            var invoker = new Invoker();
+            invoker.SetCommand(command);
+
+            int idNauczyciela = invoker.Invoke();
+
             if (idNauczyciela == -1) { return NotFound(); }
 
             //if (!AccesVerification.Verify(idNauczyciela, userId, _context))
