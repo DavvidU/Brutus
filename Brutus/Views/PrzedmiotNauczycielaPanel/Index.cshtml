@@ -2,7 +2,52 @@
 
 <h2>@Model.Nazwa</h2>
 
-<form action="/PrzedmiotNauczycielaPanel/WylistujUczniow" method="get" style="display: inline;">
-    <input type="hidden" name="idPrzedmiotu" value="@Model.ID_Przedmiotu" />
-    <button type="submit" class="btn">Wylistuj uczniów</button>
-</form>
+<table>
+    <thead>
+        <tr>
+            <th colspan="2">Akcje</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <form action="/PrzedmiotNauczycielaPanel/WylistujUczniow" method="get" style="display: inline;">
+                    <input type="hidden" name="idPrzedmiotu" value="@Model.ID_Przedmiotu" />
+                    <button type="submit" class="btn">Wylistuj uczniów</button>
+                </form>
+            </td>
+            <td>
+                <form action="/PrzedmiotNauczycielaPanel/GenerujZestawienieZPrzedmiotu" method="get" style="display: inline;">
+                    <input type="hidden" name="idPrzedmiotu" value="@Model.ID_Przedmiotu" />
+
+                    <div>
+                        <input type="checkbox" name="czyZawieraKomentarze" value="true" />
+                        <label for="czyZawieraKomentarze">Komentarze</label>
+                    </div>
+
+                    <div>
+                        <input type="checkbox" name="czyZawieraWagi" value="true" />
+                        <label for="czyZawieraWagi">Wagi</label>
+                    </div>
+
+                    <div>
+                        <input type="checkbox" name="czyPorownanieNaTleKlasy" value="true" />
+                        <label for="czyPorownanieNaTleKlasy">Zestawienie na tle klasy</label>
+                    </div>
+
+                    <div>
+                        <label for="dataPoczatkowa">Data początkowa:</label>
+                        <input type="date" name="dataPoczatkowa" required>
+                    </div>
+
+                    <div>
+                        <label for="dataKoncowa">Data końcowa:</label>
+                        <input type="date" name="dataKoncowa" required>
+                    </div>
+
+                    <button type="submit" class="btn">Generuj zestawienie z przedmiotu</button>
+                </form>
+            </td>
+        </tr>
+    </tbody>
+</table>

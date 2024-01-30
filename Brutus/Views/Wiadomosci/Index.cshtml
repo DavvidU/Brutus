@@ -1,4 +1,4 @@
-@model List<Wiadomosc>
+@model Brutus.DTOs.WiadomosciWithMozliwiAdresaci
 
 <h1>Twoje wiadomości</h1>
 
@@ -11,7 +11,7 @@
     </tr>
     </thead>
     <tbody>
-    @foreach (var wiadomosc in Model)
+    @foreach (var wiadomosc in Model.Wiadomosci)
     {
         <tr>
             <td>@wiadomosc.Data</td>
@@ -27,11 +27,21 @@
     </tbody>
 </table>
 
-<h2>Nowa wiadomość</h2>
+@using (Html.BeginForm("Wyslij", "Wiadomosci", FormMethod.Post))
+{
+    <h2>Wyślij Wiadomość</h2>
 
-<form action="/Wiadomosci/Create" method="post">
-    <label for="tresc">Treść:</label>
-    <textarea name="tresc" required></textarea>
-    <br />
+    <div>
+        <label for="WybranyAdresatID">Adresat:</label>
+        @Html.DropDownListFor(m => m.WybranyAdresatID, Model.MozliwiAdresaci, "-- Wybierz Adresata --", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.WybranyAdresatID)
+    </div>
+
+    <div>
+        <label for="TrescWiadomosci">Treść Wiadomości:</label>
+        @Html.TextAreaFor(m => m.TrescWiadomosci, new { @class = "form-control", rows = "5" })
+        @Html.ValidationMessageFor(m => m.TrescWiadomosci)
+    </div>
+
     <button type="submit" class="btn">Wyślij</button>
-</form>
+}
