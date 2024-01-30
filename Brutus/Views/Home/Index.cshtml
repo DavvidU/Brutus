@@ -1,31 +1,58 @@
-﻿@{
+﻿@model List<Brutus.Models.Ogloszenie>
+
+@{
     ViewData["Title"] = "Strona główna";
 }
+<style>
+    .announcement-table {
+        margin: 0 auto;
+        width: 90%;
+        max-width: 1200px;
+    }
+        .announcement-table td {
+            padding: 8px;
+        }
+
+        .announcement-table .content-column {
+            font-size: 1.2em;
+        }
+</style>
 
 <div class="main-banner">
     <h1>Witaj w systemie Brutus!</h1>
     <p class="lead">Dzienniku elektronicznym, na który zawsze możesz liczyć.</p>
 </div>
-
 <section class="features">
     <div class="row">
-        <div class="feature-box col-md-4">
-            <h3>Nauka to potęgi klucz</h3>
-            <p>Narzędzie to zostało zaprojektowane z myślą o usprawnianiu pracy placówek szkolnych.</p>
-        </div>
-        <div class="feature-box col-md-4">
-            <h4>Skąd wziąć dane do logowania?</h4>
-            <p>Skontatuj się z osobą, która jest administratorem Brutusa w Twojej placówce szkolnej.</p>
-        </div>
-        <div class="feature-box col-md-4">
-            <h3>Dziennik dla wszystkich</h3>
-            <p>Uczniów, rodziców oraz nauczycieli.</p>
+        <div class="col-md-12">
+            @{
+                string autorOgloszenia;
+            }
+            @if (Model != null && Model.Any())
+            {
+                <table class="announcement-table">
+                    <tbody>
+                        @foreach (var ogloszenie in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @if (ogloszenie.Nauczyciel != null)
+                                    {
+                                        autorOgloszenia = ogloszenie.Nauczyciel.Konto.Imie + " " + ogloszenie.Nauczyciel.Konto.Nazwisko;
+                                    }
+                                    else { autorOgloszenia = "-"; }
+                                    @autorOgloszenia
+                                </td>
+                                <td class="content-column">@ogloszenie.Tresc</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <p>Brak ogłoszeń do wyświetlenia.</p>
+            }
         </div>
     </div>
-</section>
-
-<section class="about-us">
-    <h2>Autrzorzy</h2>
-    <p>Dawid Ugniewski</p>
-    <p>Adam Bagiński</p>
 </section>

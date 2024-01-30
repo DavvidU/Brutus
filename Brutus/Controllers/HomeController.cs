@@ -1,7 +1,9 @@
-﻿using Brutus.DTOs;
+﻿using Brutus.Data;
+using Brutus.DTOs;
 using Brutus.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 namespace Brutus.Controllers
@@ -11,13 +13,14 @@ namespace Brutus.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-
+        private readonly BrutusContext _context;
         public HomeController(ILogger<HomeController> logger, UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager)
+            SignInManager<ApplicationUser> signInManager,BrutusContext context)
         {
             _logger = logger;
             _userManager = userManager;
             _signInManager = signInManager;
+            _context = context;
         }
 
         [HttpGet]
@@ -52,7 +55,8 @@ namespace Brutus.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            var ogloszenia = _context.Ogloszenia.Include(o => o.Nauczyciel).ThenInclude(n => n.Konto).ToList();
+            return View(ogloszenia);
         }
         public IActionResult AccesDenied()
         {

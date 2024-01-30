@@ -19,7 +19,7 @@ namespace Brutus.Controllers
 
         public IActionResult Index()
         {
-            var ogloszenia = _context.Ogloszenia.ToList();
+            var ogloszenia = _context.Ogloszenia.Include(o => o.Nauczyciel).ThenInclude(n => n.Konto).ToList();
             return View(ogloszenia);
         }
 
@@ -45,7 +45,7 @@ namespace Brutus.Controllers
                 ogloszenie.Nauczyciel = _context.Nauczyciele.FirstOrDefault(n => n.ID_Nauczyciela == idNauczyciela);
                 _context.Ogloszenia.Add(ogloszenie);;
                 _context.SaveChanges();
-                return RedirectToAction("Aktualnosci");
+                return RedirectToAction("Index", "Home");
             }
             return View(ogloszenie);
         }
@@ -92,7 +92,7 @@ namespace Brutus.Controllers
 
             _context.Ogloszenia.Remove(ogloszenieDoUsuniecia);
             _context.SaveChanges();
-            return RedirectToAction("Aktualnosci");
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpGet]
@@ -120,7 +120,7 @@ namespace Brutus.Controllers
                 existingOgloszenie.Nauczyciel = ogloszenie.Nauczyciel;
 
                 _context.SaveChanges();
-                return RedirectToAction("Aktualnosci");
+                return RedirectToAction("Index","Home");
             }
 
             return View(ogloszenie);
