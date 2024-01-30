@@ -217,3 +217,47 @@ input[type=submit] {
 .form-container {
     display: flex;
 }
+
+/* ------------------ Jasny motyw ------------------------- */
+
+.light-theme {
+    --primary-color: #b0b0c3;
+    --secondary-color: #e6e6f0;
+    --accent-color: #646480;
+    --interactive-color: #9494b8;
+    background: #ffffff;
+    color: #333333;
+}
+
+    .light-theme .container {
+        background-color: rgba(0, 0, 0, 0.05);
+        border: 1px solid rgba(0, 0, 0, 0.2);
+    }
+
+    .light-theme footer {
+        background: #d0d0e8;
+        color: #333;
+    }
+
+    .light-theme .navbar {
+        background-color: var(--secondary-color);
+        color: var(--accent-color);
+    }
+
+    .light-theme table, .light-theme th, .light-theme td {
+        border: 1px solid var(--primary-color);
+    }
+
+    .light-theme th {
+        background-color: var(--secondary-color);
+        color: var(--accent-color);
+    }
+
+    .light-theme td {
+        color: var(--accent-color);
+    }
+
+    .light-theme .link, .light-theme .btn, .light-theme input[type=submit] {
+        background: linear-gradient(to right, #6478b4 0%, #8494c8 100%);
+        color: #333;
+    }

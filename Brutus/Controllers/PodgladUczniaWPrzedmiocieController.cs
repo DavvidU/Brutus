@@ -43,7 +43,7 @@ namespace Brutus.Controllers
             return View(kontoPrzegladanegoUcznia);
         }
         public IActionResult GenerujZestawienie(int idPrzedmiotu, int idUcznia, bool czyZawieraKomentarze, 
-            bool czyZawieraWagi, bool czyPorownanieNaTleKlasy) 
+            bool czyZawieraWagi, bool czyPorownanieNaTleKlasy, DateTime dataPoczatkowa, DateTime dataKoncowa) 
         {
             string userId = User.Identity.GetUserId(); // Pobierz torzsamosc nauczyciela generujacego zestawienie
 
@@ -66,7 +66,9 @@ namespace Brutus.Controllers
             if (przedmiot == null) { return NotFound(); }
 
             List<Ocena> ocenyUcznia = _context.Oceny.Where(o => o.Uczen != null && 
-                                                            o.Uczen.ID_Ucznia == idUcznia).ToList();
+                                                            o.Uczen.ID_Ucznia == idUcznia &&
+                                                            o.Data.Date >= dataPoczatkowa.Date &&
+                                                            o.Data.Date <= dataKoncowa.Date).ToList();
 
             Zestawienie zestawienie = new ZestawienieUcznia(idUcznia, kontoUcznia.Imie, kontoUcznia.Nazwisko, 
                                                             idPrzedmiotu, przedmiot.Nazwa, ocenyUcznia);

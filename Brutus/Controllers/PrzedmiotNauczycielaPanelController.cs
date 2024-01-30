@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Brutus.Services.Command;
+using Brutus.Services.Zestawienie;
 
 namespace Brutus.Controllers
 {
@@ -34,10 +35,72 @@ namespace Brutus.Controllers
             if (przedmiot == null) {  return NotFound(); }
 
 
-            if (!CzyUdzielicDostep(idPrzedmiotu, idNauczyciela)) 
+            if (!CzyUdzielicDostepDoPrzedmiotu(idPrzedmiotu, idNauczyciela)) 
                 return RedirectToAction("AccesDenied", "Home");
 
             return View(przedmiot);
+        }
+        public IActionResult GenerujZestawienieZPrzedmiotu(int idPrzedmiotu, bool czyZawieraKomentarze,
+            bool czyZawieraWagi, bool czyPorownanieNaTleKlasy, DateTime dataPoczatkowa, DateTime dataKoncowa)
+        {
+            string userId = User.Identity.GetUserId(); // Pobierz torzsamosc nauczyciela generujacego zestawienie
+
+            int idNauczyciela = IdTranslator.TranslateToBusinessId(userId, _context);
+            if (idNauczyciela == -1) { return NotFound(); } // Pobierz biznesowe ID nauczyciela
+
+            if (!CzyUdzielicDostepDoPrzedmiotu(idPrzedmiotu, idNauczyciela))
+                return RedirectToAction("AccesDenied", "Home");
+
+            /* Znajdz klase zapisana na rzadany przedmiot */
+
+            KlasaPrzedmiot powiazanieRzadanyPrzedmiotKlasa = _context.KlasyPrzedmioty.
+                Include(kp => kp.Klasa).FirstOrDefault(kp => kp.Przedmiot != null && kp.Klasa != null &&
+                kp.Przedmiot.ID_Przedmiotu == idPrzedmiotu);
+
+            if (powiazanieRzadanyPrzedmiotKlasa == null)
+                return NotFound();
+
+            int idKlasy = powiazanieRzadanyPrzedmiotKlasa.Klasa.ID_Klasy;
+
+            /* Znajdz wszystkich uczniow z tej klasy */
+
+            List<Uczen> uczniowie = _context.Uczniowie.Include(u => u.Konto).Where(u => u.Klasa != null &&
+                                        u.Klasa.ID_Klasy == idKlasy).ToList();
+
+            List<Zestawienie> zestawienieZPrzedmiotu = new();
+
+            /* Przygotowanie zestawienia dla kazdego z uczniow */
+
+            Przedmiot przedmiot = _context.Przedmioty.FirstOrDefault(p => p.ID_Przedmiotu == idPrzedmiotu);
+            if (przedmiot == null) { return NotFound(); }
+
+            Konto kontoUcznia;
+            List<Ocena> ocenyUcznia;
+            Zestawienie zestawienieUcznia;
+
+            foreach (Uczen uczen in uczniowie)
+            {
+                kontoUcznia = _context.Konta.FirstOrDefault(k => k.ID_Konta == uczen.ID_Ucznia);
+                if (kontoUcznia == null) { return NotFound(); }
+
+                ocenyUcznia = _context.Oceny.Where(o => o.Uczen != null &&
+                                                            o.Uczen.ID_Ucznia == uczen.ID_Ucznia &&
+                                                            o.Data.Date >= dataPoczatkowa.Date &&
+                                                            o.Data.Date <= dataKoncowa.Date).ToList();
+
+                zestawienieUcznia = new ZestawienieUcznia(uczen.ID_Ucznia, kontoUcznia.Imie, kontoUcznia.Nazwisko,
+                                                            idPrzedmiotu, przedmiot.Nazwa, ocenyUcznia);
+                if (czyZawieraWagi)
+                    zestawienieUcznia = new WagiOcen(zestawienieUcznia);
+                if (czyZawieraKomentarze)
+                    zestawienieUcznia = new KomentarzeOcen(zestawienieUcznia);
+                if (czyPorownanieNaTleKlasy)
+                    zestawienieUcznia = new TrendRozwojuNaTleKlasy(zestawienieUcznia, _context);
+
+                zestawienieZPrzedmiotu.Add(zestawienieUcznia);
+            }
+
+            return View(zestawienieZPrzedmiotu);
         }
         public IActionResult WylistujUczniow(int idPrzedmiotu)
         {
@@ -56,7 +119,7 @@ namespace Brutus.Controllers
             Przedmiot? przedmiot = _context.Przedmioty.FirstOrDefault(p => p.ID_Przedmiotu == idPrzedmiotu);
             if (przedmiot == null) { return NotFound(); }
 
-            if (!CzyUdzielicDostep(idPrzedmiotu, idNauczyciela))
+            if (!CzyUdzielicDostepDoPrzedmiotu(idPrzedmiotu, idNauczyciela))
                 return RedirectToAction("AccesDenied", "Home");
 
             /* Znajdz klase chodzaca na ten przedmiot */
@@ -101,7 +164,7 @@ namespace Brutus.Controllers
 
             if (idNauczyciela == -1) { return NotFound(); }
 
-            if (!CzyUdzielicDostep(idPrzedmiotu, idNauczyciela))
+            if (!CzyUdzielicDostepDoPrzedmiotu(idPrzedmiotu, idNauczyciela))
                 return RedirectToAction("AccesDenied", "Home");
 
             return RedirectToAction("Index", "PodgladUczniaWPrzedmiocie", new { idPrzedmiotu = idPrzedmiotu, idUcznia = idUcznia }) ;
@@ -124,7 +187,7 @@ namespace Brutus.Controllers
             return WylistujUczniow(idPrzedmiotu);
         }
         
-        private bool CzyUdzielicDostep(int idPrzedmiotu, int idNauczyciela)
+        private bool CzyUdzielicDostepDoPrzedmiotu(int idPrzedmiotu, int idNauczyciela)
         {
             // Czy nauczyciel prowadzi rzadany przedmiot
 
@@ -137,6 +200,13 @@ namespace Brutus.Controllers
                 return false;
             else
                 return true;
+        }
+        private bool CzyMozeEdytowac(string userId, int idKonta)
+        {
+            Konto konto = _context.Konta.FirstOrDefault(k => k.ID_Konta == idKonta);
+            if (konto == null || konto.ApplicationUserId != userId) return false;
+            else return true;
+
         }
     }
 }

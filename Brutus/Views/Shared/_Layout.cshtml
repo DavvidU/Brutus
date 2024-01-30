@@ -57,6 +57,9 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Oceny" asp-action="Index">Oceny</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Konta" asp-action="UpdateForUser">Profil</a>
+                            </li>
                         }
 
                         else if (User.IsInRole("Rodzic"))
@@ -69,6 +72,9 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Ogloszenia" asp-action="Aktualnosci">Aktualności</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Konta" asp-action="UpdateForUser">Profil</a>
                             </li>
                         }
 
@@ -86,6 +92,9 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Ogloszenia" asp-action="Aktualnosci">Aktualności</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Konta" asp-action="UpdateForUser">Profil</a>
+                            </li>
                         }
 
                         @if (User.Identity.IsAuthenticated)
@@ -95,6 +104,7 @@
                                     <button type="submit" class="btn btn-link">Wyloguj się</button>
                                 </form>
                             </li>
+                            <li><button id="theme-toggle" class="btn">Przełącz motyw</button></li>
                             <li class="nav-item">
                                 @User.Identity.Name
                             </li>
@@ -106,6 +116,7 @@
                                     <button type="submit" class="btn btn-link">Zaloguj się</button>
                                 </form>
                             </li>
+                            <li><button id="theme-toggle" class="btn">Przełącz motyw</button></li>
                         }
                     </ul>
                 </div>
@@ -129,3 +140,19 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const themeToggle = document.getElementById('theme-toggle');
+        const currentTheme = localStorage.getItem('theme') || 'dark';
+
+        if (currentTheme === 'light') {
+            document.body.classList.add('light-theme');
+        }
+
+        themeToggle.addEventListener('click', function () {
+            document.body.classList.toggle('light-theme');
+            let theme = document.body.classList.contains('light-theme') ? 'light' : 'dark';
+            localStorage.setItem('theme', theme);
+        });
+    });
+</script>

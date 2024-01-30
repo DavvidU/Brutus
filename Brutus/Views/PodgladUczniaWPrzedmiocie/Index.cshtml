@@ -2,7 +2,6 @@
 
 <h1>Podgląd ucznia</h1>
 <h2>@Model.ID_Konta @Model.Imie @Model.Nazwisko</h2>
-<h2>Nazwa przedmiotu?</h2>
 
 <table>
     <thead>
@@ -37,6 +36,16 @@
                     <div>
                         <input type="checkbox" name="czyPorownanieNaTleKlasy" value="true" />
                         <label for="czyPorownanieNaTleKlasy">Zestawienie na tle klasy</label>
+                    </div>
+
+                    <div>
+                        <label for="dataPoczatkowa">Data początkowa:</label>
+                        <input type="date" name="dataPoczatkowa" required>
+                    </div>
+
+                    <div>
+                        <label for="dataKoncowa">Data końcowa:</label>
+                        <input type="date" name="dataKoncowa" required>
                     </div>
 
                     <button type="submit" class="btn">Generuj zestawienie</button>
