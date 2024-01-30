@@ -3,6 +3,8 @@ using Brutus.Models;
 using Brutus.Data;
 using Brutus.DTOs;
 using Microsoft.AspNetCore.Mvc.Rendering; // do SelectList (wyswietlanie listy nauczycieli)
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 
 namespace Brutus.Controllers
 {
@@ -15,6 +17,7 @@ namespace Brutus.Controllers
             _context = context;
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult Index()
         {
             //List<Klasa> klasy = _context.Klasy.ToList();
@@ -40,6 +43,7 @@ namespace Brutus.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
@@ -99,6 +103,7 @@ namespace Brutus.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult Delete(int idKlasy)
         {
             /*
@@ -177,6 +182,7 @@ namespace Brutus.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IActionResult SetWychowawca(int idKlasy)
         {
             //Znajdz klase do przypisania w niej wychowawcy
@@ -205,7 +211,8 @@ namespace Brutus.Controllers
              * Metoda aktualizuje wychowawce w klasie - Przy czym:
              * - Jeśli nowy wychowawca zastepuje starego, to starego nalezy usunac z Wychowawcy
              * - A nowego dodac.
-             * - TO DO: !!! DODATKOWO: jesli nowy wychowawca jest 
+             * - Jesli nowy wychowawca byl juz wychowawca, nie nalezy go dodawac do Wychowawcy,
+             * - za to nalezy usunac z bycia wychowawca poprzedniej klasy
              * 
              * Przeplyw czynnosci:
              * 1. Jesli zastepujemy starego wychowawce :
@@ -217,7 +224,8 @@ namespace Brutus.Controllers
 
             // Znajdz odpowiednia klase
 
-            var klasa = _context.Klasy.FirstOrDefault(k => k.ID_Klasy == model.Klasa.ID_Klasy);
+            var klasa = _context.Klasy.Include(w => w.Wychowawca).FirstOrDefault(k => k.ID_Klasy == model.Klasa.ID_Klasy);
+            if (klasa == null) { return NotFound(); }
 
             /*
              * 1. Usuwanie starego wychowawcy
@@ -227,7 +235,7 @@ namespace Brutus.Controllers
             if (klasa.Wychowawca != null)
             {
                 // Zapisz ID starego wychowawcy w Wychowawcy
-                int idStaregoWychowawcy = model.Klasa.Wychowawca.ID_Wychowawcy;
+                int idStaregoWychowawcy = klasa.Wychowawca.ID_Wychowawcy;
 
                 // Ustaw wychowawce klasy na null
                 klasa.Wychowawca = null;
@@ -248,13 +256,27 @@ namespace Brutus.Controllers
             var wybranyNauczyciel = _context.Nauczyciele.FirstOrDefault(p =>
             p.ID_Nauczyciela == model.WybranyNauczycielID);
 
-            // Dodaj go do wychowawcy
-            Wychowawca wychowawca = new Wychowawca();
-            wychowawca.ID_Wychowawcy = wybranyNauczyciel.ID_Nauczyciela;
-            wychowawca.Nauczyciel = wybranyNauczyciel;
-            
-            _context.Wychowawcy.Add(wychowawca);
+            // Jesli trzeba, dodaj go do tabeli Wychowawcy
 
+            Wychowawca wychowawca;
+
+            bool czyWychowawcaBylJuzWychowawca = _context.Wychowawcy.Any(w => w.ID_Wychowawcy == wybranyNauczyciel.ID_Nauczyciela);
+
+            if (!czyWychowawcaBylJuzWychowawca)
+            {
+                wychowawca = new Wychowawca();
+                wychowawca.ID_Wychowawcy = wybranyNauczyciel.ID_Nauczyciela;
+                wychowawca.Nauczyciel = wybranyNauczyciel;
+                _context.Wychowawcy.Add(wychowawca);
+            }
+            else
+            {
+                wychowawca = _context.Wychowawcy.FirstOrDefault(w => w.ID_Wychowawcy == wybranyNauczyciel.ID_Nauczyciela);
+
+                Klasa poprzedniaKlasaWychowawcy = _context.Klasy.FirstOrDefault(k => k.Wychowawca.ID_Wychowawcy == wychowawca.ID_Wychowawcy);
+                poprzedniaKlasaWychowawcy.Wychowawca = null;
+            }
+            
             var wychowawcaWBazie = _context.Wychowawcy.FirstOrDefault(w => w.ID_Wychowawcy == 
                                                                         wychowawca.ID_Wychowawcy);
 

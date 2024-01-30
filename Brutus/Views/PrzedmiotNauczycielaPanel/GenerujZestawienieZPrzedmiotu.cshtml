@@ -1,0 +1,42 @@
+﻿@model List<Brutus.Services.Zestawienie.Zestawienie>
+
+<h2>Zestawienie z przedmiotu @Model[0].GetDanePrzedmiotu()</h2>
+
+@foreach (Brutus.Services.Zestawienie.Zestawienie zestawienie in Model)
+{
+<div>
+    <h3>Dane Ucznia: @zestawienie.GetDaneUcznia()</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Oceny</th>
+            </tr>
+        </thead>
+        <tbody>
+                @foreach (var ocena in zestawienie.GetSformatowanaListaOcen())
+            {
+                <tr>
+                    <td>@ocena</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Dodatkowe Informacje:</th>
+            </tr>
+        </thead>
+        <tbody>
+                @foreach (var info in zestawienie.GetDodatkoweInformacje())
+            {
+                <tr>
+                    <td>@info</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+}
