@@ -27,14 +27,6 @@ namespace Brutus.Controllers
         {
             return View();
         }
-
-        //string Imie, string Nazwisko, string Email, string SkrotHasla, int NrTelefonu, string TypKonta
-        /*Konto konto = new Konto();
-        konto.Imie = Imie;
-        konto.Nazwisko = Nazwisko;
-        konto.Email = Email;
-        konto.SkrotHasla = SkrotHasla;
-        konto.NrTelefonu = NrTelefonu; */
         [HttpPost]
         public async Task<IActionResult> Create(string Imie, string Nazwisko, string Email, string SkrotHasla, int NrTelefonu, string TypKonta)
         {
@@ -99,13 +91,14 @@ namespace Brutus.Controllers
         [HttpPost]
         public IActionResult Update(Konto konto)
         {
-            if(ModelState.IsValid)
+
+            if (ModelState.IsValid)
             {
                 var existingKonto = _context.Konta.FirstOrDefault(k => k.ID_Konta == konto.ID_Konta);
-
+                
                 if (existingKonto == null)
                     return NotFound();
-
+                
                 existingKonto.Imie = konto.Imie;
                 existingKonto.Nazwisko = konto.Nazwisko;
                 existingKonto.Email = konto.Email;

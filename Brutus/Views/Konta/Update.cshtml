@@ -2,6 +2,7 @@
 
 <form action="Update" method="post">
     <input type="hidden" asp-for="ID_Konta" />
+    <input type="hidden" asp-for="ApplicationUserId" />
     <div>
         <label>Imię:</label>
         <input type="text" asp-for="Imie" pattern=".{1,20}" title="Imię musi zawierać od 1 do 20 znaków" required />
