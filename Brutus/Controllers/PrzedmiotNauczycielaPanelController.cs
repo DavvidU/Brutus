@@ -201,5 +201,12 @@ namespace Brutus.Controllers
             else
                 return true;
         }
+        private bool CzyMozeEdytowac(string userId, int idKonta)
+        {
+            Konto konto = _context.Konta.FirstOrDefault(k => k.ID_Konta == idKonta);
+            if (konto == null || konto.ApplicationUserId != userId) return false;
+            else return true;
+
+        }
     }
 }
