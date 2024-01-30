@@ -1,6 +1,8 @@
 using Brutus.Data;
 using Brutus.DTOs;
 using Brutus.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Brutus.Controllers
@@ -18,8 +20,18 @@ namespace Brutus.Controllers
         }
 
         [HttpGet]
-        public IActionResult Oceny(int idUcznia)
+        [Authorize(Roles = "Uczen")]
+        public IActionResult Oceny()
         {
+            string userId = User.Identity.GetUserId();
+
+            var command = new TranslateIdCommand(userId, _context);
+            var invoker = new Invoker();
+            invoker.SetCommand(command);
+
+            int idUcznia = invoker.Invoke();
+            if (idUcznia == -1) { return NotFound(); }
+
             Konto kontoUcznia = _context.Konta.FirstOrDefault(k => k.ID_Konta == idUcznia);
             if (kontoUcznia == null)
             {
