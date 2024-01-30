@@ -31,9 +31,8 @@ namespace Brutus.Controllers
 
             if (idKonta == -1) { return NotFound(); }
 
-            /* Pobieranie wiadomosci, ktorych odbiorca jest uzytkownik */
+            /* Pobieranie wiadomosci odebrane uzytkownika */
 
-            /* TU BYCMOZE TRZEBA UZYC .Include().ThenInclude().ToList() // OgloszeniaController:52 */
             List<KontoWiadomosc> polaczeniaWiadomosciOdebraneWiadomosc = _context.KontaWiadomosci.
                                 Include(w => w.Wiadomosc).Where(kw => kw.Odbiorca.ID_Konta == idKonta).ToList();
 
@@ -43,6 +42,18 @@ namespace Brutus.Controllers
             {
                 wiadomosciOdebrane.Add(wiadomoscZOdbiarca.Wiadomosc);
             }
+
+            /* Pobierz wiadomosci wyslane uzytkownika polaczane z ich adrestami */
+
+            List<WiadomoscZAdresatami> wiadomosciWyslane = _context.Wiadomosci.Where(w => w.Nadawca.ID_Konta == idKonta).
+                Select(w => new WiadomoscZAdresatami
+                {
+                    Wiadomosc = w,
+                    Adresaci = _context.KontaWiadomosci.Where(kw => kw.Wiadomosc.ID_Wiadomosci == w.ID_Wiadomosci).
+                    Select(kw => kw.Odbiorca.Imie + " " + kw.Odbiorca.Nazwisko).ToList()
+                }).ToList();
+
+            /* Pobierz adresatow  */
 
             /* Pobieranie mozliwych adresatow dla uzytkownika */
 
@@ -65,7 +76,8 @@ namespace Brutus.Controllers
 
             var viewModel = new WiadomosciWithMozliwiAdresaci
             {
-                Wiadomosci = wiadomosciOdebrane,
+                WiadomosciOdebrane = wiadomosciOdebrane,
+                WiadomosciWyslane = wiadomosciWyslane,
                 MozliwiAdresaci = new SelectList(mozliwiAdresaci, "ID_Konta", "Nazwisko")
             };
 
