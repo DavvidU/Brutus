@@ -1,5 +1,6 @@
 ﻿using Brutus.Data;
 using Brutus.Models;
+using Brutus.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -38,43 +39,47 @@ namespace Brutus.Controllers
         public async Task<IActionResult> Create(string Imie, string Nazwisko, string Email, string SkrotHasla, int NrTelefonu, string TypKonta)
         {
             /* Konto - Identity */
-
-            var user = new ApplicationUser { UserName = Email, Email = Email, PhoneNumber = NrTelefonu.ToString()};
-            var result = await _userManager.CreateAsync(user, SkrotHasla);
-
-            /* Konto - biznesowa logika */
+            UserBuilder builder;
+            
+            switch (TypKonta)
+            {
+                case "Admin":
+                        builder = new AdminBuilder(_context);
+                        break;
+                case "Uczen":
+                    builder = new UczenBuilder(_context);
+                    break;
+                case "Nauczyciel":
+                    builder = new NauczycielBuilder(_context);
+                    break;
+                case "Rodzic":
+                    builder = new RodzicBuilder(_context);
+                    break;
+                default:
+                    throw new ArgumentException("Nieznany typ konta");
+            }
 
             Konto konto = new Konto();
-            konto.Imie = Imie;
-            konto.Nazwisko = Nazwisko;
-            konto.Email = Email;
-            konto.SkrotHasla = SkrotHasla;
-            konto.NrTelefonu = NrTelefonu;
-            konto.ApplicationUserId = user.Id;
-            string typTworzonegoKonta = TypKonta;
-            int idTworzonegoKonta;
+            ApplicationUser user = builder.SetImie(Imie)
+           .SetNazwisko(Nazwisko)
+           .SetEmail(Email)
+           .SetSkrotHasla(SkrotHasla)
+           .SetNrTelefonu(NrTelefonu)
+           .Build();
 
+            var result = await _userManager.CreateAsync(user, SkrotHasla);
             if (result.Succeeded)
             {
+                konto.ApplicationUserId = user.Id;
+                builder.Save(user, _userManager);
                 await _userManager.AddToRoleAsync(user, TypKonta);
 
                 if (ModelState.IsValid)
-                {
-                    _context.Konta.Add(konto);
-                    _context.SaveChanges();
-
-                    idTworzonegoKonta = _context.Konta.OrderByDescending(x => x.ID_Konta).FirstOrDefault().ID_Konta;
-
-                    if (typTworzonegoKonta == "Admin")
-                        return RedirectToAction("Create", "Admini", new { idDodanegoKonta = idTworzonegoKonta });
-                    if (typTworzonegoKonta == "Uczen")
-                        return RedirectToAction("Create", "Uczniowie", new { idDodanegoKonta = idTworzonegoKonta });
-                    if (typTworzonegoKonta == "Rodzic")
-                        return RedirectToAction("Create", "Rodzice", new { idDodanegoKonta = idTworzonegoKonta });
-                    if (typTworzonegoKonta == "Nauczyciel")
-                        return RedirectToAction("Create", "Nauczyciele", new { idDodanegoKonta = idTworzonegoKonta });
+                {                    
+                    return RedirectToAction("Index");
                 }
             }
+
             return View(konto);
         }
         public IActionResult Read()

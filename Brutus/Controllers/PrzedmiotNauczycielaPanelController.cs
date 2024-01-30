@@ -1,11 +1,11 @@
 ﻿using Brutus.Models;
 using Brutus.Data;
-using Brutus.Services;
 using Brutus.Services.SortowanieUczniow;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Brutus.Services.Command;
 
 namespace Brutus.Controllers
 {
@@ -23,7 +23,11 @@ namespace Brutus.Controllers
         {
             string userId = User.Identity.GetUserId();
 
-            int idNauczyciela = IdTranslator.TranslateToBusinessId(userId, _context);
+            var command = new TranslateIdCommand(userId, _context);
+            var invoker = new Invoker();
+            invoker.SetCommand(command);
+
+            int idNauczyciela = invoker.Invoke();
             if (idNauczyciela == -1) { return NotFound(); }
 
             Przedmiot? przedmiot = _context.Przedmioty.FirstOrDefault(p => p.ID_Przedmiotu == idPrzedmiotu);
@@ -37,9 +41,16 @@ namespace Brutus.Controllers
         }
         public IActionResult WylistujUczniow(int idPrzedmiotu)
         {
+            /* Znajdz uczniow chodzacych na przedmiot i wylistuj ich za pomoca strategii sortowania */
+
             string userId = User.Identity.GetUserId();
 
-            int idNauczyciela = IdTranslator.TranslateToBusinessId(userId, _context);
+            var command = new TranslateIdCommand(userId, _context);
+            var invoker = new Invoker();
+            invoker.SetCommand(command);
+
+            int idNauczyciela = invoker.Invoke();
+
             if (idNauczyciela == -1) { return NotFound(); }
 
             Przedmiot? przedmiot = _context.Przedmioty.FirstOrDefault(p => p.ID_Przedmiotu == idPrzedmiotu);
@@ -60,7 +71,7 @@ namespace Brutus.Controllers
             List<Uczen> uczniowie = _context.Uczniowie.Include(u => u.Konto).Where(u => u.Klasa != null &&
                                         u.Klasa.ID_Klasy == klasa.ID_Klasy).ToList();
 
-            uczniowie = sortowanieUczniow.SortujUczniow(uczniowie, _context, idPrzedmiotu);
+            uczniowie = sortowanieUczniow.SortujUczniow(uczniowie, _context, idPrzedmiotu); // Uzycie strategii
 
             // Znajdz konta tych uczniow
 
@@ -74,7 +85,7 @@ namespace Brutus.Controllers
                     kontaUczniow.Add(kontoUcznia);
             }
 
-            ViewBag.IDPrzedmiotu = idPrzedmiotu;
+            ViewBag.IdPrzedmiotu = idPrzedmiotu;
 
             return View("WylistujUczniow" , kontaUczniow);
         }
@@ -82,7 +93,12 @@ namespace Brutus.Controllers
         {
             string userId = User.Identity.GetUserId();
 
-            int idNauczyciela = IdTranslator.TranslateToBusinessId(userId, _context);
+            var command = new TranslateIdCommand(userId, _context);
+            var invoker = new Invoker();
+            invoker.SetCommand(command);
+
+            int idNauczyciela = invoker.Invoke();
+
             if (idNauczyciela == -1) { return NotFound(); }
 
             if (!CzyUdzielicDostep(idPrzedmiotu, idNauczyciela))
@@ -106,7 +122,6 @@ namespace Brutus.Controllers
             }
 
             return WylistujUczniow(idPrzedmiotu);
-            //return RedirectToAction("WylistujUczniow", new { idPrzedmiotu = idPrzedmiotu });
         }
         
         private bool CzyUdzielicDostep(int idPrzedmiotu, int idNauczyciela)

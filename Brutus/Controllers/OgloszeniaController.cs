@@ -1,6 +1,6 @@
 ﻿using Brutus.Data;
 using Brutus.Models;
-using Brutus.Services;
+using Brutus.Services.Command;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -34,8 +34,11 @@ namespace Brutus.Controllers
         {
             string userId = User.Identity.GetUserId();
 
-            int idNauczyciela = IdTranslator.TranslateToBusinessId(userId, _context);
-            if (idNauczyciela == -1) { return NotFound(); }
+            var command = new TranslateIdCommand(userId, _context);
+            var invoker = new Invoker();
+            invoker.SetCommand(command);
+
+            int idNauczyciela = invoker.Invoke();
 
             if (ModelState.IsValid)
             {
@@ -47,6 +50,7 @@ namespace Brutus.Controllers
             return View(ogloszenie);
         }
 
+        
         public IActionResult Aktualnosci()
         {
             var ogloszenia = _context.Ogloszenia.Include(o => o.Nauczyciel).ThenInclude(n => n.Konto).ToList();
@@ -57,9 +61,18 @@ namespace Brutus.Controllers
         [Authorize(Roles = "Nauczyciel")]
         public IActionResult AktualnosciEdit()
         {
+           // pobranie identyfikatora użytkownika
             string userId = User.Identity.GetUserId();
 
-            int idNauczyciela = IdTranslator.TranslateToBusinessId(userId, _context);
+            // utworzenie konkretnego polecenia do przetłumaczenia identyfikatora uzytkownika na identyfikator biznesowy
+            var command = new TranslateIdCommand(userId, _context);
+            // utworzenie obiektu Invoker który bedzie wywolywac polecenie
+            var invoker = new Invoker();
+            // przekazanie komendy do wywoływacza
+            invoker.SetCommand(command);
+            // wywolanie komendy i otrzymanie identyfikatora biznesowego nauczyciela
+            int idNauczyciela = invoker.Invoke();
+
             if (idNauczyciela == -1) { return NotFound(); }
 
             var ogloszeniaNauczyciela = _context.Ogloszenia.Where(o => o.Nauczyciel.ID_Nauczyciela == idNauczyciela);

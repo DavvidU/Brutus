@@ -1,0 +1,30 @@
+﻿@model Brutus.DTOs.DodawanieOcenyViewModel
+
+<h2>Dodawanie oceny</h2>
+
+@using (Html.BeginForm())
+{
+    <table>
+        <tr>
+            <td>Ocena: </td>
+            <td><input type="number" asp-for="Wartosc" min="1" max="6" required/></td>
+        </tr>
+        <tr>
+            <td>Waga: </td>
+            <td><input type="number" asp-for="Waga" min="1" max="10" required/></td>
+        </tr>
+        <tr>
+            <td>Komentarz: </td>
+            <td><input type="text" asp-for="Komentarz" pattern=".{1,100}" title="Komentarz musi zawierać od 1 do 100 znaków" required /></td>
+        </tr>
+
+        <input type="hidden" asp-for="Uczen.ID_Ucznia" />
+        <input type="hidden" asp-for="Nauczyciel.ID_Nauczyciela" />
+        <input type="hidden" asp-for="Przedmiot.ID_Przedmiotu" />
+        
+        <tr>
+            <td>&nbsp;</td>
+            <td><input type="submit" value="Dodaj" /></td>
+        </tr>
+    </table>
+}

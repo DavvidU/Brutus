@@ -16,13 +16,14 @@ namespace Brutus.Controllers
         }
         public IActionResult Index()
         {
-            return View();
+            var uczniowie = _context.Uczniowie.Include(u => u.Konto).ToList();
+            return View(uczniowie);
         }
-        public IActionResult Create(int idDodanegoKonta)
+       /* public IActionResult Create(int idDodanegoKonta)
         {
-            /*
-             * Metoda tworzy rekord ucznia w Uczniowie z referencją do Konta
-             */
+            
+              // Metoda tworzy rekord ucznia w Uczniowie z referencją do Konta
+             
             Uczen uczen = new Uczen();
             uczen.ID_Ucznia = idDodanegoKonta;
             uczen.Konto = _context.Konta.FirstOrDefault(p => p.ID_Konta == idDodanegoKonta);
@@ -31,7 +32,7 @@ namespace Brutus.Controllers
             _context.SaveChanges();
 
             return RedirectToAction("Index", "Konta");
-        }
+        }*/
         [HttpGet]
         public IActionResult ZarzadzanieUczniami()
         {

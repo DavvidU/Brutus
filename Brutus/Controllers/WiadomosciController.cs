@@ -1,6 +1,6 @@
 ﻿using Brutus.Data;
 using Brutus.Models;
-using Brutus.Services;
+using Brutus.Services.Command;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,7 +21,12 @@ namespace Brutus.Controllers
         {
             string userId = User.Identity.GetUserId();
 
-            int idKonta = IdTranslator.TranslateToBusinessId(userId, _context);
+            var command = new TranslateIdCommand(userId, _context);
+            var invoker = new Invoker();
+            invoker.SetCommand(command);
+
+            int idKonta = invoker.Invoke();
+
             if (idKonta == -1) { return NotFound(); }
 
             /* TU BYCMOZE TRZEBA UZYC .Include().ThenInclude().ToList() // OgloszeniaController:52 */

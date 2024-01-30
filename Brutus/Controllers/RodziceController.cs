@@ -15,11 +15,11 @@ namespace Brutus.Controllers
         {
             return View();
         }
-        public IActionResult Create(int idDodanegoKonta)
+        /*public IActionResult Create(int idDodanegoKonta)
         {
-            /*
-             * Metoda tworzy rekord rodzica w Rodzice z referencją do Konta
-             */
+            
+             //     * Metoda tworzy rekord rodzica w Rodzice z referencją do Konta
+             
             Rodzic rodzic = new Rodzic();
             rodzic.ID_Rodzica = idDodanegoKonta;
             rodzic.Konto = _context.Konta.FirstOrDefault(p => p.ID_Konta == idDodanegoKonta);
@@ -28,6 +28,6 @@ namespace Brutus.Controllers
             _context.SaveChanges();
 
             return RedirectToAction("Index", "Konta");
-        }
+        }*/
     }
 }

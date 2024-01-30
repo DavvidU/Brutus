@@ -29,7 +29,7 @@ namespace Brutus.Migrations
 
                     b.HasKey("ID_Admina");
 
-                    b.ToTable("Admini");
+                    b.ToTable("Admini", (string)null);
                 });
 
             modelBuilder.Entity("Brutus.Models.ApplicationUser", b =>
@@ -120,7 +120,7 @@ namespace Brutus.Migrations
 
                     b.HasIndex("ID_Wychowawcy");
 
-                    b.ToTable("Klasy");
+                    b.ToTable("Klasy", (string)null);
                 });
 
             modelBuilder.Entity("Brutus.Models.KlasaPrzedmiot", b =>
@@ -143,7 +143,7 @@ namespace Brutus.Migrations
 
                     b.HasIndex("ID_Przedmiotu");
 
-                    b.ToTable("KlasyPrzedmioty");
+                    b.ToTable("KlasyPrzedmioty", (string)null);
                 });
 
             modelBuilder.Entity("Brutus.Models.Konto", b =>
@@ -183,7 +183,7 @@ namespace Brutus.Migrations
 
                     b.HasKey("ID_Konta");
 
-                    b.ToTable("Konta");
+                    b.ToTable("Konta", (string)null);
                 });
 
             modelBuilder.Entity("Brutus.Models.KontoWiadomosc", b =>
@@ -206,7 +206,7 @@ namespace Brutus.Migrations
 
                     b.HasIndex("ID_Wiadomosci");
 
-                    b.ToTable("KontaWiadomosci");
+                    b.ToTable("KontaWiadomosci", (string)null);
                 });
 
             modelBuilder.Entity("Brutus.Models.Nauczyciel", b =>
@@ -216,7 +216,7 @@ namespace Brutus.Migrations
 
                     b.HasKey("ID_Nauczyciela");
 
-                    b.ToTable("Nauczyciele");
+                    b.ToTable("Nauczyciele", (string)null);
                 });
 
             modelBuilder.Entity("Brutus.Models.NauczycielPrzedmiot", b =>
@@ -239,7 +239,7 @@ namespace Brutus.Migrations
 
                     b.HasIndex("ID_Przedmiotu");
 
-                    b.ToTable("NauczycielePrzedmioty");
+                    b.ToTable("NauczycielePrzedmioty", (string)null);
                 });
 
             modelBuilder.Entity("Brutus.Models.Ocena", b =>
@@ -281,7 +281,7 @@ namespace Brutus.Migrations
 
                     b.HasIndex("ID_Ucznia");
 
-                    b.ToTable("Oceny");
+                    b.ToTable("Oceny", (string)null);
                 });
 
             modelBuilder.Entity("Brutus.Models.Ogloszenie", b =>
@@ -304,7 +304,7 @@ namespace Brutus.Migrations
 
                     b.HasIndex("ID_Nauczyciela");
 
-                    b.ToTable("Ogloszenia");
+                    b.ToTable("Ogloszenia", (string)null);
                 });
 
             modelBuilder.Entity("Brutus.Models.Przedmiot", b =>
@@ -327,7 +327,7 @@ namespace Brutus.Migrations
 
                     b.HasKey("ID_Przedmiotu");
 
-                    b.ToTable("Przedmioty");
+                    b.ToTable("Przedmioty", (string)null);
                 });
 
             modelBuilder.Entity("Brutus.Models.PrzedmiotZalacznik", b =>
@@ -350,7 +350,7 @@ namespace Brutus.Migrations
 
                     b.HasIndex("ID_Zalacznika");
 
-                    b.ToTable("PrzedmiotyZalaczniki");
+                    b.ToTable("PrzedmiotyZalaczniki", (string)null);
                 });
 
             modelBuilder.Entity("Brutus.Models.Pytanie", b =>
@@ -401,7 +401,7 @@ namespace Brutus.Migrations
 
                     b.HasIndex("ID_Testu");
 
-                    b.ToTable("Pytania");
+                    b.ToTable("Pytania", (string)null);
                 });
 
             modelBuilder.Entity("Brutus.Models.Rodzic", b =>
@@ -411,7 +411,7 @@ namespace Brutus.Migrations
 
                     b.HasKey("ID_Rodzica");
 
-                    b.ToTable("Rodzice");
+                    b.ToTable("Rodzice", (string)null);
                 });
 
             modelBuilder.Entity("Brutus.Models.Test", b =>
@@ -440,7 +440,7 @@ namespace Brutus.Migrations
 
                     b.HasIndex("ID_Nauczyciela");
 
-                    b.ToTable("Testy");
+                    b.ToTable("Testy", (string)null);
                 });
 
             modelBuilder.Entity("Brutus.Models.Uczen", b =>
@@ -460,7 +460,7 @@ namespace Brutus.Migrations
 
                     b.HasIndex("ID_Rodzica");
 
-                    b.ToTable("Uczniowie");
+                    b.ToTable("Uczniowie", (string)null);
                 });
 
             modelBuilder.Entity("Brutus.Models.UczenOcena", b =>
@@ -483,7 +483,7 @@ namespace Brutus.Migrations
 
                     b.HasIndex("ID_Ucznia");
 
-                    b.ToTable("UczniowieOceny");
+                    b.ToTable("UczniowieOceny", (string)null);
                 });
 
             modelBuilder.Entity("Brutus.Models.UczenTest", b =>
@@ -506,7 +506,7 @@ namespace Brutus.Migrations
 
                     b.HasIndex("ID_Ucznia");
 
-                    b.ToTable("UczniowieTesty");
+                    b.ToTable("UczniowieTesty", (string)null);
                 });
 
             modelBuilder.Entity("Brutus.Models.Wiadomosc", b =>
@@ -532,7 +532,7 @@ namespace Brutus.Migrations
 
                     b.HasIndex("ID_Nadawcy");
 
-                    b.ToTable("Wiadomosci");
+                    b.ToTable("Wiadomosci", (string)null);
                 });
 
             modelBuilder.Entity("Brutus.Models.WiadomoscZalacznik", b =>
@@ -555,7 +555,7 @@ namespace Brutus.Migrations
 
                     b.HasIndex("ID_Zalacznika");
 
-                    b.ToTable("WiadomosciZalaczniki");
+                    b.ToTable("WiadomosciZalaczniki", (string)null);
                 });
 
             modelBuilder.Entity("Brutus.Models.Wychowawca", b =>
@@ -565,7 +565,7 @@ namespace Brutus.Migrations
 
                     b.HasKey("ID_Wychowawcy");
 
-                    b.ToTable("Wychowawcy");
+                    b.ToTable("Wychowawcy", (string)null);
                 });
 
             modelBuilder.Entity("Brutus.Models.Zalacznik", b =>
@@ -592,7 +592,7 @@ namespace Brutus.Migrations
 
                     b.HasKey("ID_Zalacznika");
 
-                    b.ToTable("Zalaczniki");
+                    b.ToTable("Zalaczniki", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
